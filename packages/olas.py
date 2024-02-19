@@ -21,11 +21,22 @@
 
 from contribute import Contributors
 from vote import Voters
+from hold import veOLAS
+from bond import Bonders
+from nft import NFT
+from stake import Stakers
 from dotenv import load_dotenv
 
 class Olas:
 
     def __init__(self) -> None:
+        """Initializer"""
         load_dotenv()
         self.contributors = Contributors()
         self.voters = Voters()
+        self.veolas_holders = veOLAS()
+        self.bonders = Bonders()
+        self.nft_owners = NFT()
+        self.stakers = Stakers()
+
+
