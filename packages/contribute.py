@@ -34,4 +34,7 @@ class Contributors:
         """Get contributors"""
         data, _, _ = self.ceramic.get_data(CONTRIBUTE_DB_STREAM_ID)
         users = list(filter(lambda u: u["points"] >= min_points, data["users"])) if min_points else data["users"]
+        for user in users:
+            del user["tweet_id_to_points"]
+            del user["current_period_points"]
         return users

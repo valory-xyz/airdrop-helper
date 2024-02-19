@@ -20,8 +20,12 @@
 """Olas"""
 
 from contribute import Contributors
+from vote import Voters
+from dotenv import load_dotenv
 
 class Olas:
 
     def __init__(self) -> None:
+        load_dotenv()
         self.contributors = Contributors()
+        self.voters = Voters()

@@ -23,5 +23,15 @@ from olas import Olas
 import json
 
 olas = Olas()
+
+# Contribute
 contributors = olas.contributors.get(min_points=50000)
-print(json.dumps(contributors, indent=4))
+print("\nContributors\n", json.dumps(contributors, indent=4))
+
+# Snapshot votes
+snapshot_voters = olas.voters.snapshot.get(min_votes=3)
+print("\nSnapshot voters\n", json.dumps(snapshot_voters, indent=4))
+
+# Boardroom votes - requires an API key to be set in a .env file
+boardroom_voters = olas.voters.boardroom.get()
+print("\nBoardroom voters\n", json.dumps(boardroom_voters, indent=4))
