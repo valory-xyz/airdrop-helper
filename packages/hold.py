@@ -58,9 +58,12 @@ class veOLAS:
         return list(addresses)
 
 
-    def get(self, block):
+    def get(self, block, min_power=0):
         """Get voting power per holder"""
         holders = self._get_veolas_holders(block)
-        return {
+
+        address_to_votes = {
             address: self.wveolas.functions.getPastVotes(address, block).call() / 1e18 for address in holders
         }
+
+        return {k: v for k,v in address_to_votes.items() if v >= min_power}

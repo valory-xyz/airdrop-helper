@@ -19,9 +19,32 @@
 
 """NFT"""
 
+from web3 import Web3
+from constants import REGISTRIES
+import json
+from pathlib import Path
+import os
 
 class NFT:
 
+    def __init__(self) -> None:
+        self.api = Web3(Web3.HTTPProvider(os.getenv("ETHEREUM_RPC")))
+        with open(Path("packages", "contracts", "service_registry.json"), "r") as abi_file:
+            abi = json.load(abi_file)
+        self.service_registry = self.api.eth.contract(address=Web3.to_checksum_address(REGISTRIES["ETHEREUM"]["SERVICE"]), abi=abi)
+
     def get(self):
         """Get"""
-        pass
+        # Services
+        n_services = self.service_registry.functions.totalSupply().call()
+
+        token_id_to_owner = {
+            token_id: self.service_registry.functions.ownerOf(token_id).call() for token_id in range(1, n_services + 1)
+        }
+
+        address_to_tokens = {}
+        for address in token_id_to_owner.values():
+            address_to_tokens[address] = address_to_tokens.get(address, 0) + 1
+
+        return address_to_tokens
+
