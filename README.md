@@ -1,2 +1,2 @@
 # airdrop-helper
-A tool to measure participation on the Olas ecosystem
+A tool to measure participation in the Olas ecosystem
