@@ -2,6 +2,10 @@
 
 A tool to measure participation in the Olas ecosystem
 
+> :warning: **Warning** <br />
+> The code within this repository is provided without any warranties. It is important to note that the code has not been audited for potential security vulnerabilities.
+> Valory AG is not responsible for any airdrops resulting from use of this resource.
+> Exercise caution and use this code at your own risk. Please refer to the [LICENSE](./LICENSE) file for details about the terms and conditions.
 
 ## How to use
 
