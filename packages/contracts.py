@@ -23,11 +23,14 @@ import json
 import os
 from pathlib import Path
 
-from packages.constants import CONTRACTS
-from web3 import Web3
 from eth_abi.exceptions import InsufficientDataBytes
+from web3 import Web3
+
+from packages.constants import CONTRACTS
+
 
 MAX_BLOCKS = 5000
+
 
 class ContractManager:
     """ContractManager"""
@@ -88,10 +91,14 @@ class ContractManager:
 
             print(f"  Parsing batch {from_block} to {to_block}...")
             try:
-                new_events = getattr(contract.events, event).create_filter(
-                    fromBlock=from_block,
-                    toBlock=to_block,
-                ).get_all_entries()
+                new_events = (
+                    getattr(contract.events, event)
+                    .create_filter(
+                        fromBlock=from_block,
+                        toBlock=to_block,
+                    )
+                    .get_all_entries()
+                )
             except InsufficientDataBytes:
                 continue
             except ValueError:

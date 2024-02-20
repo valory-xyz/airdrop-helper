@@ -22,6 +22,7 @@
 import os
 
 import requests
+
 from packages.snapshot import queries
 
 

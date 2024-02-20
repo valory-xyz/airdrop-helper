@@ -19,10 +19,11 @@
 
 """Olas"""
 
+from dotenv import load_dotenv
+
 from packages.bond import Bonders
 from packages.contracts import ContractManager
 from packages.contribute import Contributors
-from dotenv import load_dotenv
 from packages.hold import veOLAS
 from packages.nft import NFT
 from packages.stake import Stakers

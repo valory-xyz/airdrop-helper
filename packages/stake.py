@@ -22,6 +22,7 @@
 ALPINE_DEPLOYMENT_BLOCK = 32121777
 EVEREST_DEPLOYMENT_BLOCK = 30758378
 
+
 class Stakers:
     """Stakers"""
 
@@ -43,5 +44,7 @@ class Stakers:
             "gnosis", self.everest, "ServiceStaked", EVEREST_DEPLOYMENT_BLOCK, block
         )
 
-        staking_owners = list(set(stake.args.owner for stake in alpine_stakes + everest_stakes))
+        staking_owners = list(
+            set(stake.args.owner for stake in alpine_stakes + everest_stakes)
+        )
         return staking_owners
