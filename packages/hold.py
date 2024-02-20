@@ -25,8 +25,10 @@ class veOLAS:
 
     def __init__(self, contract_manager) -> None:
         """Initializer"""
-        self.veolas = contract_manager.contracts["ethereum"]["other"]["veolas"]
-        self.wveolas = contract_manager.contracts["ethereum"]["other"]["wveolas"]
+        self.contract_manager = contract_manager
+        if "ethereum" not in self.contract_manager.skip_chains:
+            self.veolas = contract_manager.contracts["ethereum"]["other"]["veolas"]
+            self.wveolas = contract_manager.contracts["ethereum"]["other"]["wveolas"]
 
     def _get_veolas_holders(self, block=None):
         """Get events"""
@@ -49,6 +51,10 @@ class veOLAS:
 
     def get(self, block, min_power=0):
         """Get voting power per holder"""
+        if "ethereum" in self.contract_manager.skip_chains:
+            print("Warning: Missing ETHEREUM_RPC. Skipping call to Ethereum chain")
+            return []
+
         holders = self._get_veolas_holders(block)
 
         address_to_votes = {

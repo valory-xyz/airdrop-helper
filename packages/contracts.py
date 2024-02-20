@@ -52,20 +52,26 @@ class ContractManager:
 
             if not rpc:
                 missing_rpcs[chain_name] = rpc_var_name
+                continue
 
             self.apis[f"{chain_name}"] = Web3(Web3.HTTPProvider(rpc))
 
         # Warn about missing rpcs
+        self.skip_chains = []
         if missing_rpcs:
+            self.skip_chains = list(missing_rpcs.keys())
             print(
-                f"WARNING: the env vars {list(missing_rpcs.values())} have not been set. Trying to make calls to {list(missing_rpcs.keys())} chains will result in errors."
+                f"WARNING: the env vars {list(missing_rpcs.values())} have not been set. Calls to {self.skip_chains} chains will be skipped."
             )
             input("Press enter key to continue...")
 
+        # Skip Solana for now
+        self.skip_chains.append("solana")
+
         # Load contracts
         for chain_name, contract_group in CONTRACTS.items():
-            # Skip Solana for now
-            if chain_name in ["solana"]:
+            # Skip chains without an RPC
+            if chain_name in self.skip_chains:
                 continue
             self.contracts[chain_name] = {}
             for group_name, contracts in contract_group.items():
@@ -83,6 +89,9 @@ class ContractManager:
 
     def get_events(self, chain, contract, event, start_block, end_block=None):
         """Get events"""
+        if chain in self.skip_chains:
+            return []
+
         if not end_block:
             latest_block = self.apis[chain].eth.get_block("latest").number
         else:

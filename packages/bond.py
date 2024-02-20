@@ -25,10 +25,18 @@ class Bonders:
 
     def __init__(self, contract_manager) -> None:
         """Initializer"""
-        self.depository = contract_manager.contracts["ethereum"]["other"]["depository"]
+        self.contract_manager = contract_manager
+        if "ethereum" not in self.contract_manager.skip_chains:
+            self.depository = contract_manager.contracts["ethereum"]["other"][
+                "depository"
+            ]
 
     def get(self, block=None, min_amount=None):
         """Get"""
+        if "ethereum" in self.contract_manager.skip_chains:
+            print("Warning: Missing ETHEREUM_RPC. Skipping call to Ethereum chain")
+            return {}
+
         deposits = self.depository.events.CreateBond.create_filter(
             fromBlock="earliest",
             toBlock=block if block else "latest",

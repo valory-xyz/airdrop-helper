@@ -29,14 +29,19 @@ class Stakers:
     def __init__(self, contract_manager) -> None:
         """Initializer"""
         self.contract_manager = contract_manager
-        self.alpine = contract_manager.contracts["gnosis"]["staking"]["alpine"]
-        self.everest = contract_manager.contracts["gnosis"]["staking"]["everest"]
-        self.gnosis_service_registry = contract_manager.contracts["gnosis"][
-            "registries"
-        ]["service_registry"]
+        if "gnosis" not in self.contract_manager.skip_chains:
+            self.alpine = contract_manager.contracts["gnosis"]["staking"]["alpine"]
+            self.everest = contract_manager.contracts["gnosis"]["staking"]["everest"]
+            self.gnosis_service_registry = contract_manager.contracts["gnosis"][
+                "registries"
+            ]["service_registry"]
 
     def get(self, block=None):
         """Get"""
+        if "gnosis" in self.contract_manager.skip_chains:
+            print("Warning: Missing GNOSIS_RPC. Skipping call to Gnosis chain")
+            return []
+
         alpine_stakes = self.contract_manager.get_events(
             "gnosis", self.alpine, "ServiceStaked", ALPINE_DEPLOYMENT_BLOCK, block
         )

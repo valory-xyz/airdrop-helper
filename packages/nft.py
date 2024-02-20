@@ -26,15 +26,19 @@ class NFT:
 
     def __init__(self, contract_manager) -> None:
         """Initializer"""
+        self.contract_manager = contract_manager
         self.contracts = contract_manager.contracts
 
     def get(self):
         """Get"""
         address_to_tokens = {}
         for chain_name, contract_group in CONTRACTS.items():
-            # Skip Solana for now
-            if chain_name in ["solana"]:
+            if chain_name in self.contract_manager.skip_chains:
+                print(
+                    f"Warning: Missing {chain_name.upper()}_RPC. Skipping call to {chain_name} chain"
+                )
                 continue
+
             for contract_name in contract_group["registries"].keys():
                 contract = self.contracts[chain_name]["registries"][contract_name]
                 n_tokens = contract.functions.totalSupply().call()

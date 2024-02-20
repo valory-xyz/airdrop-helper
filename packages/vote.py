@@ -92,6 +92,11 @@ class Boardroom:
         """Get voters"""
 
         api_key = os.getenv("BOARDROOM_API_KEY")
+
+        if not api_key:
+            print("Warning: Missing BOARDROOM_API_KEY. Skipping call to Boardroom API")
+            return {}
+
         endpoint_base = f"https://api.boardroom.info/v1/protocols/autonolas/voters?key={api_key}&limit=100"
         cursor = None
         votes = []
