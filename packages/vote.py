@@ -18,9 +18,11 @@
 # ------------------------------------------------------------------------------
 
 """Vote"""
+import os
+
 import requests
 from snapshot import queries
-import os
+
 
 HTTP_OK = 200
 

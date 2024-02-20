@@ -17,6 +17,9 @@ pycryptodome = "3.18.0"
 jsonschema = "4.19.0"
 python-dotenv = "1.0.1"
 web3 = "6.15.1"
+tomte = "^0.2.16"
+click = "^8.1.7"
+tox = "^4.13.0"
 
 
 [build-system]

@@ -19,14 +19,15 @@
 
 """Olas"""
 
-from contribute import Contributors
-from vote import Voters
-from hold import veOLAS
 from bond import Bonders
+from contracts import ContractManager
+from contribute import Contributors
+from dotenv import load_dotenv
+from hold import veOLAS
 from nft import NFT
 from stake import Stakers
-from dotenv import load_dotenv
-from contracts import ContractManager
+from vote import Voters
+
 
 class Olas:
 

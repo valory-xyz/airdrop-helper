@@ -20,7 +20,12 @@
 """Ceramic"""
 
 import requests
-from ceramic.payload import build_genesis_payload, build_commit_payload, build_data_from_commits
+from ceramic.payload import (
+    build_commit_payload,
+    build_data_from_commits,
+    build_genesis_payload,
+)
+
 
 # Glaze quick start
 # https://developers.ceramic.network/build/cli/quick-start/#__tabbed_1_1

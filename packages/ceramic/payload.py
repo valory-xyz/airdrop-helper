@@ -19,20 +19,19 @@
 
 """Ceramic payloads"""
 
-import dag_cbor
 import hashlib
 import json
-from base64 import urlsafe_b64encode, b64encode, b64decode
-from jwcrypto import jwk, jws
-from jwcrypto.common import json_encode
-from multiformats import CID
-from jwcrypto.common import json_encode, base64url_encode, base64url_decode
-from cryptography.hazmat.primitives.asymmetric.ed25519 import (
-    Ed25519PrivateKey
-)
-from cryptography.hazmat.primitives import serialization
 import os
+from base64 import b64decode, b64encode, urlsafe_b64encode
+
+import dag_cbor
 import jsonpatch
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+from jwcrypto import jwk, jws
+from jwcrypto.common import base64url_decode, base64url_encode, json_encode
+from multiformats import CID
+
 
 DAG_CBOR_CODEC_CODE = 113
 SHA2_256_CODE = 18

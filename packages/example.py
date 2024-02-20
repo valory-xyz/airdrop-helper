@@ -19,8 +19,10 @@
 
 """Examples"""
 
-from olas import Olas
 import json
+
+from olas import Olas
+
 
 #############################################################################
 # WARNING: some of the following tools require API keys or RPCs to be set   #

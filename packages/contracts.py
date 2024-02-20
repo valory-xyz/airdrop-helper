@@ -19,11 +19,13 @@
 
 """Contracts"""
 
-from web3 import Web3
-from constants import CONTRACTS
 import json
-from pathlib import Path
 import os
+from pathlib import Path
+
+from constants import CONTRACTS
+from web3 import Web3
+
 
 class ContractManager:
 
