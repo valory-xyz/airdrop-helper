@@ -22,6 +22,8 @@ from constants import CONTRACTS
 
 
 class NFT:
+    """NFT"""
+
     def __init__(self, contract_manager) -> None:
         """Initializer"""
         self.contracts = contract_manager.contracts

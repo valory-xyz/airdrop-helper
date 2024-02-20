@@ -18,6 +18,7 @@
 # ------------------------------------------------------------------------------
 
 """Vote"""
+
 import os
 
 import requests
@@ -31,6 +32,7 @@ class Voters:
     """Voters"""
 
     def __init__(self) -> None:
+        """Initializer"""
         self.snapshot = Snapshot()
         self.boardroom = Boardroom()
 

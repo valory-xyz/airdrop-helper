@@ -28,6 +28,8 @@ from web3 import Web3
 
 
 class ContractManager:
+    """ContractManager"""
+
     def __init__(self) -> None:
         """Initializer"""
         self.apis = {}

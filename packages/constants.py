@@ -51,9 +51,9 @@ CONTRACTS = {
     "arbitrum": {
         "registries": {"service_registry": "0xE3607b00E75f6405248323A9417ff6b39B244b50"}
     },
-    # "solana": {
-    #     "registries": {
-    #         "service_registry": "AU428Z7KbjRMjhmqWmQwUta2AvydbpfEZNBh8dStHTDi"
-    #     }
-    # }
+    "solana": {
+        "registries": {
+            "service_registry": "AU428Z7KbjRMjhmqWmQwUta2AvydbpfEZNBh8dStHTDi"
+        }
+    },
 }

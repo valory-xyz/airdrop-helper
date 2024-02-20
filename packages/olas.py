@@ -30,6 +30,8 @@ from vote import Voters
 
 
 class Olas:
+    """Olas"""
+
     def __init__(self) -> None:
         """Initializer"""
         load_dotenv()

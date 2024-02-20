@@ -6,3 +6,5 @@ packages/.env
 packages/snapshot/__pycache__/
 
 packages/ceramic/__pycache__/
+
+.tox/

@@ -63,11 +63,12 @@ def create_digest(digest: bytearray, code: int = SHA2_256_CODE) -> bytearray:
 
 
 def base64UrlEncode(data):
-    """ "Base64 encoding"""
+    """Base64 encoding"""
     return urlsafe_b64encode(data).rstrip(b"=")
 
 
 def build_data_for_signing(header: dict, encoded_payload: str) -> str:
+    """build_data_for_signing"""
     header_str = json.dumps(header)
     header_bytes = bytearray(header_str, "utf-8")
     header_base64 = base64UrlEncode(header_bytes)
@@ -134,6 +135,7 @@ def sign_ed25519(payload: dict, did: str, seed: str):
 
 
 def build_data_from_commits(commits):
+    """build_data_from_commits"""
     # Iterate over the commits and get the data diffs
     patches = []
 
@@ -167,23 +169,15 @@ def build_data_from_commits(commits):
 
     n = 0
 
-    # with open("patches.json", "w") as outf:
-    #     json.dump(patches, outf, indent=4)
-
     for patch in patches:
         content = jsonpatch.apply_patch(content, patch)
-        # with open(f"data_{n}.json", "w") as out_file:
-        #     print(f"Writing {n}")
-        #     try:
-        #         json.dump(content, out_file, indent=4)
-        #     except:
-        #         print(content)
         n += 1
 
     return content
 
 
 def decode_linked_block(linked_block: str) -> dict:
+    """decode_linked_block"""
     # Base64 decoding will raise binascii.Error: Incorrect padding if there is not enough padding
     # We can add extra b"=="" to avoid this and the decoder will trim out the unneeded ones. See here:
     # https://stackoverflow.com/questions/2941995/python-ignore-incorrect-padding-error-when-base64-decoding
@@ -225,6 +219,7 @@ def encode_and_sign_payload(payload: dict, did: str, did_seed: str) -> dict:
 
 
 def build_genesis_payload(did, did_seed, data, extra_metadata):
+    """build_genesis_payload"""
     genesis_data = {
         "header": {
             "controllers": [did],
@@ -279,6 +274,7 @@ def build_commit_payload(
     genesis_cid: str,
     previous_cid: str,
 ):
+    """build_commit_payload"""
     # Create a diff patch from the old data to the new one
     patch = jsonpatch.make_patch(initial_data, final_data)
 

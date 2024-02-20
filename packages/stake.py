@@ -21,6 +21,8 @@
 
 
 class Stakers:
+    """Stakers"""
+
     def __init__(self, contract_manager) -> None:
         """Initializer"""
         self.alpine = contract_manager.contracts["gnosis"]["staking"]["alpine"]

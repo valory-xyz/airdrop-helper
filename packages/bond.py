@@ -21,6 +21,8 @@
 
 
 class Bonders:
+    """Bonders"""
+
     def __init__(self, contract_manager) -> None:
         """Initializer"""
         self.depository = contract_manager.contracts["ethereum"]["other"]["depository"]
