@@ -24,8 +24,22 @@ class Bonders:
 
     def __init__(self, contract_manager) -> None:
         """Initializer"""
-        self.contracts = contract_manager.contracts
+        self.depository = contract_manager.contracts["ethereum"]["other"]["depository"]
 
-    def get(self):
+    def get(self, block=None, min_amount=None):
         """Get"""
-        pass
+        deposits = self.depository.events.CreateBond.create_filter(
+            fromBlock="earliest",
+            toBlock=block if block else "latest",
+        ).get_all_entries()
+
+        address_to_amount = {}
+        for deposit in deposits:
+            owner = deposit.args.owner
+            address_to_amount[owner] = address_to_amount.get(owner, 0) + deposit.args.amountOLAS / 1e18
+
+        return {k: v for k, v in address_to_amount.items() if v >= min_amount} if min_amount else address_to_amount
+
+
+
+

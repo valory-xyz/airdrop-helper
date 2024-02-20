@@ -47,3 +47,7 @@ print("\nNFT owners\n", json.dumps(nft_holders, indent=4))
 # Stakers - requires an RPC to be set in a .env file
 stakers = olas.stakers.get()
 print("\nStakers\n", json.dumps(stakers, indent=4))
+
+# Bonders - requires an RPC to be set in a .env file
+bonders = olas.bonders.get()
+print("\nBonders\n", json.dumps(bonders, indent=4))

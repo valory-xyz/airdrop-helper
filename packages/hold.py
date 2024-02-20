@@ -24,8 +24,8 @@ class veOLAS:
 
     def __init__(self, contract_manager) -> None:
         """Initializer"""
-        self.veolas = contract_manager.contracts["ethereum"]["tokens"]["veolas"]
-        self.wveolas = contract_manager.contracts["ethereum"]["tokens"]["wveolas"]
+        self.veolas = contract_manager.contracts["ethereum"]["other"]["veolas"]
+        self.wveolas = contract_manager.contracts["ethereum"]["other"]["wveolas"]
 
     def _get_veolas_holders(self, block=None):
         """Get events"""

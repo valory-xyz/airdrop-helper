@@ -28,10 +28,11 @@ CONTRACTS = {
             "agent_registry": "0x2F1f7D38e4772884b88f3eCd8B6b9faCdC319112",
             "service_registry": "0x48b6af7B12C71f09e2fC8aF4855De4Ff54e775cA"
         },
-        "tokens": {
+        "other": {
             "veolas": "0x7e01a500805f8a52fad229b3015ad130a332b7b3",
             "wveolas": "0x4039B809E0C0Ad04F6Fc880193366b251dDf4B40",
-        }
+            "depository": "0xfF8697d8d2998d6AA2e09B405795C6F4BEeB0C81"
+        },
     },
     "gnosis": {
         "registries": {
