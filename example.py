@@ -52,17 +52,17 @@ print("\nBoardroom voters\n", json.dumps(boardroom_voters, indent=4))
 veolas_holders = olas.veolas_holders.get(block=19263301)
 print("\nveOLAS holders\n", json.dumps(veolas_holders, indent=4))
 
+# Get addresses that have bonded up to a given block (ignore block argument to retrieve latest)
+# Requires ETHEREUM_RPC to be set in the .env file
+bonders = olas.bonders.get(block=19269490)
+print("\nBonders\n", json.dumps(bonders, indent=4))
+
 # Get service, agent and component NFT owners
 # Requires RPC to be set in the .env file for all the chains you need to interact with
 nft_holders = olas.nft_owners.get()
 print("\nNFT owners\n", json.dumps(nft_holders, indent=4))
 
-# Get stakers who have participated in Everest or Alpine programmes
+# Get stakers who have participated in Everest or Alpine programmes up to a given block
 # Requires GNOSIS_RPC to be set in the .env file
-stakers = olas.stakers.get()
+stakers = olas.stakers.get(block=32122777)
 print("\nStakers\n", json.dumps(stakers, indent=4))
-
-# Get addresses that have bonded up to a given block (ignore block argument to retrieve latest)
-# Requires ETHEREUM_RPC to be set in the .env file
-bonders = olas.bonders.get(block=19269490)
-print("\nBonders\n", json.dumps(bonders, indent=4))
