@@ -19,24 +19,13 @@
 
 """Hold"""
 
-from web3 import Web3
-import os
-from constants import VEOLAS, WVEOLAS
-import json
-from pathlib import Path
-
-
 class veOLAS:
     """veOLAS"""
 
-    def __init__(self) -> None:
-        self.api = Web3(Web3.HTTPProvider(os.getenv("ETHEREUM_RPC")))
-        with open(Path("packages", "contracts", "veolas.json"), "r") as abi_file:
-            abi = json.load(abi_file)
-        self.veolas = self.api.eth.contract(address=Web3.to_checksum_address(VEOLAS), abi=abi)
-        with open(Path("packages", "contracts", "wveolas.json"), "r") as abi_file:
-            abi = json.load(abi_file)
-        self.wveolas = self.api.eth.contract(address=Web3.to_checksum_address(WVEOLAS), abi=abi)
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        self.veolas = contract_manager.contracts["ethereum"]["tokens"]["veolas"]
+        self.wveolas = contract_manager.contracts["ethereum"]["tokens"]["wveolas"]
 
     def _get_veolas_holders(self, block=None):
         """Get events"""

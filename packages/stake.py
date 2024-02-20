@@ -19,9 +19,17 @@
 
 """Stake"""
 
-
 class Stakers:
+
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        self.alpine = contract_manager.contracts["gnosis"]["staking"]["alpine"]
+        self.everest = contract_manager.contracts["gnosis"]["staking"]["everest"]
+        self.gnosis_service_registry = contract_manager.contracts["gnosis"]["registries"]["service_registry"]
 
     def get(self):
         """Get"""
-        pass
+        service_ids = self.everest.functions.getServiceIds().call() + self.alpine.functions.getServiceIds().call()
+        staking_owners = list(set([self.gnosis_service_registry.functions.ownerOf(service_id).call() for service_id in service_ids]))
+        return staking_owners
+

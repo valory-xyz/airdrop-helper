@@ -26,17 +26,19 @@ from bond import Bonders
 from nft import NFT
 from stake import Stakers
 from dotenv import load_dotenv
+from contracts import ContractManager
 
 class Olas:
 
     def __init__(self) -> None:
         """Initializer"""
         load_dotenv()
+        self.contract_manager = ContractManager()
         self.contributors = Contributors()
         self.voters = Voters()
-        self.veolas_holders = veOLAS()
-        self.bonders = Bonders()
-        self.nft_owners = NFT()
-        self.stakers = Stakers()
+        self.veolas_holders = veOLAS(self.contract_manager)
+        self.bonders = Bonders(self.contract_manager)
+        self.nft_owners = NFT(self.contract_manager)
+        self.stakers = Stakers(self.contract_manager)
 
 

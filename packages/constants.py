@@ -21,25 +21,40 @@
 
 CONTRIBUTE_DB_STREAM_ID = "kjzl6cwe1jw14647dyyzcfgi6dy9klgy87smm84dehcniwg1x8tjkg74u16pi4l"
 
-VEOLAS = "0x7e01a500805f8a52fad229b3015ad130a332b7b3"
-WVEOLAS = "0x4039B809E0C0Ad04F6Fc880193366b251dDf4B40"
-
-REGISTRIES = {
-    "ETHEREUM": {
-        "COMPONENT": "0x15bd56669F57192a97dF41A2aa8f4403e9491776",
-        "AGENT": "0x2F1f7D38e4772884b88f3eCd8B6b9faCdC319112",
-        "SERVICE": "0x48b6af7B12C71f09e2fC8aF4855De4Ff54e775cA"
+CONTRACTS = {
+    "ethereum": {
+        "registries": {
+            "component_registry": "0x15bd56669F57192a97dF41A2aa8f4403e9491776",
+            "agent_registry": "0x2F1f7D38e4772884b88f3eCd8B6b9faCdC319112",
+            "service_registry": "0x48b6af7B12C71f09e2fC8aF4855De4Ff54e775cA"
+        },
+        "tokens": {
+            "veolas": "0x7e01a500805f8a52fad229b3015ad130a332b7b3",
+            "wveolas": "0x4039B809E0C0Ad04F6Fc880193366b251dDf4B40",
+        }
     },
-    "GNOSIS": {
-        "SERVICE": "0x9338b5153AE39BB89f50468E608eD9d764B755fD"
+    "gnosis": {
+        "registries": {
+            "service_registry": "0x9338b5153AE39BB89f50468E608eD9d764B755fD"
+        },
+        "staking": {
+            "alpine": "0x2Ef503950Be67a98746F484DA0bBAdA339DF3326",
+            "everest": "0x5add592ce0a1B5DceCebB5Dcac086Cd9F9e3eA5C"
+        }
     },
-    "POLYGON": {
-        "SERVICE": "0xE3607b00E75f6405248323A9417ff6b39B244b50"
+    "polygon": {
+        "registries": {
+            "service_registry": "0xE3607b00E75f6405248323A9417ff6b39B244b50"
+        }
     },
-    "SOLANA": {
-        "SERVICE": ""
+    "arbitrum": {
+        "registries": {
+            "service_registry": "0xE3607b00E75f6405248323A9417ff6b39B244b50"
+        }
     },
-    "ARBITRUM": {
-        "SERVICE": "0xE3607b00E75f6405248323A9417ff6b39B244b50"
-    },
+    # "solana": {
+    #     "registries": {
+    #         "service_registry": "AU428Z7KbjRMjhmqWmQwUta2AvydbpfEZNBh8dStHTDi"
+    #     }
+    # }
 }

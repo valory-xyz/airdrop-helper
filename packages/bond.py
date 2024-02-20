@@ -22,6 +22,10 @@
 
 class Bonders:
 
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        self.contracts = contract_manager.contracts
+
     def get(self):
         """Get"""
         pass
