@@ -19,7 +19,13 @@ A tool to measure participation in the Olas ecosystem
     poetry install
     ```
 
-4. Explore the examples in the script [example.py](https://github.com/valory-xyz/airdrop-helper/blob/main/example.py), for example:
+4. Set environment variables:
+    ```bash
+    cp sample.env .env
+    ```
+    And populate the environment variables as required.
+
+5. Explore the examples in the script [example.py](https://github.com/valory-xyz/airdrop-helper/blob/main/example.py), for example:
 
     > [NOTE]
     > Some of the following tools require API keys or RPCs to be set in a .env file. Read the example script for more information.
@@ -35,7 +41,7 @@ A tool to measure participation in the Olas ecosystem
     veolas_holders = olas.veolas_holders.get(block=19263301, min_power=100)
     ``````
 
-5. Modify the script to your needs and run it like:
+6. Modify the script to your needs and run it like:
     ```bash
     python example.py
     ```
