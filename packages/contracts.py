@@ -25,7 +25,9 @@ from pathlib import Path
 
 from packages.constants import CONTRACTS
 from web3 import Web3
+from eth_abi.exceptions import InsufficientDataBytes
 
+MAX_BLOCKS = 5000
 
 class ContractManager:
     """ContractManager"""
@@ -62,3 +64,43 @@ class ContractManager:
                         ] = self.apis[chain_name].eth.contract(
                             address=Web3.to_checksum_address(contract_address), abi=abi
                         )
+
+    def get_events(self, chain, contract, event, start_block, end_block=None):
+        """Get events"""
+        if not end_block:
+            latest_block = self.apis[chain].eth.get_block("latest").number
+        else:
+            latest_block = end_block
+
+        events = []
+        from_block = start_block
+
+        print(f"Requested events from blocks {start_block} to {latest_block}")
+
+        while True:
+            to_block = latest_block
+
+            if to_block - from_block > MAX_BLOCKS:
+                to_block = from_block + MAX_BLOCKS
+
+            if to_block > latest_block:
+                to_block = latest_block
+
+            print(f"  Parsing batch {from_block} to {to_block}...")
+            try:
+                new_events = getattr(contract.events, event).create_filter(
+                    fromBlock=from_block,
+                    toBlock=to_block,
+                ).get_all_entries()
+            except InsufficientDataBytes:
+                continue
+            except ValueError:
+                continue
+
+            events.extend(new_events)
+            from_block = to_block
+
+            if from_block >= latest_block:
+                break
+
+        return events
