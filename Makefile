@@ -1,10 +1,10 @@
 .PHONY: lint
 formatters:
-	tomte format-code
+	tox -e isort
+	tox -e black
 
 .PHONY: lint-check
 all-linters:
-	tox -e spell-check
 	tox -e bandit
 	tox -e safety
 	tox -e black-check

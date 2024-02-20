@@ -45,16 +45,15 @@ class Snapshot:
         votes = []
 
         while True:
-
-            variables = {
-                "first": step,
-                "skip": step * i,
-                "space_in": ["autonolas.eth"]
-            }
+            variables = {"first": step, "skip": step * i, "space_in": ["autonolas.eth"]}
 
             response = requests.post(
                 "https://hub.snapshot.org/graphql?",
-                json={'query': queries.olas_votes_query, "variables": variables, "operationName": "Votes"}
+                json={
+                    "query": queries.olas_votes_query,
+                    "variables": variables,
+                    "operationName": "Votes",
+                },
             )
 
             if response.status_code != HTTP_OK:
@@ -70,14 +69,17 @@ class Snapshot:
 
         return votes
 
-
     def get(self, min_votes=None):
         """Get"""
         votes = self._get_votes()
         address_to_votes = {}
         for vote in votes:
             address_to_votes[vote["voter"]] = address_to_votes.get(vote["voter"], 0) + 1
-        return {k:v for k, v in address_to_votes.items() if v >= min_votes} if min_votes else address_to_votes
+        return (
+            {k: v for k, v in address_to_votes.items() if v >= min_votes}
+            if min_votes
+            else address_to_votes
+        )
 
 
 class Boardroom:
@@ -92,7 +94,6 @@ class Boardroom:
         votes = []
 
         while True:
-
             endpoint = endpoint_base + f"&cursor={cursor}" if cursor else endpoint_base
             response = requests.get(endpoint)
 
@@ -112,5 +113,11 @@ class Boardroom:
     def get(self, min_votes=None):
         """Get"""
         votes = self._get_votes()
-        address_to_votes = {vote["address"]: vote["protocols"][0]["totalVotesCast"] for vote in votes}
-        return {k:v for k, v in address_to_votes.items() if v >= min_votes} if min_votes else address_to_votes
+        address_to_votes = {
+            vote["address"]: vote["protocols"][0]["totalVotesCast"] for vote in votes
+        }
+        return (
+            {k: v for k, v in address_to_votes.items() if v >= min_votes}
+            if min_votes
+            else address_to_votes
+        )

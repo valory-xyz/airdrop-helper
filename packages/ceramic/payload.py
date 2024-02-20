@@ -37,7 +37,9 @@ DAG_CBOR_CODEC_CODE = 113
 SHA2_256_CODE = 18
 
 
-def encode_cid(multihash: bytearray, cid_version:int=1, code:int=DAG_CBOR_CODEC_CODE) -> bytearray:
+def encode_cid(
+    multihash: bytearray, cid_version: int = 1, code: int = DAG_CBOR_CODEC_CODE
+) -> bytearray:
     """CID encoding"""
     code_offset = 1
     hash_offset = 2
@@ -48,7 +50,7 @@ def encode_cid(multihash: bytearray, cid_version:int=1, code:int=DAG_CBOR_CODEC_
     return _bytes
 
 
-def create_digest(digest: bytearray, code:int=SHA2_256_CODE) -> bytearray:
+def create_digest(digest: bytearray, code: int = SHA2_256_CODE) -> bytearray:
     """Create a digest"""
     size = len(digest)
     size_offset = 1
@@ -61,7 +63,7 @@ def create_digest(digest: bytearray, code:int=SHA2_256_CODE) -> bytearray:
 
 
 def base64UrlEncode(data):
-    """"Base64 encoding"""
+    """ "Base64 encoding"""
     return urlsafe_b64encode(data).rstrip(b"=")
 
 
@@ -75,7 +77,7 @@ def build_data_for_signing(header: dict, encoded_payload: str) -> str:
 def get_unique_string() -> str:
     """Creates the unique string"""
     random_bytes = os.urandom(12)
-    return b64encode(random_bytes).decode('utf-8')
+    return b64encode(random_bytes).decode("utf-8")
 
 
 def sign_ed25519(payload: dict, did: str, seed: str):
@@ -92,15 +94,14 @@ def sign_ed25519(payload: dict, did: str, seed: str):
         key_ed25519.private_bytes(
             serialization.Encoding.Raw,
             serialization.PrivateFormat.Raw,
-            serialization.NoEncryption()
+            serialization.NoEncryption(),
         )
     )
 
     # public key
     x = base64url_encode(
         key_ed25519.public_key().public_bytes(
-            serialization.Encoding.Raw,
-            serialization.PublicFormat.Raw
+            serialization.Encoding.Raw, serialization.PublicFormat.Raw
         )
     )
 
@@ -109,10 +110,10 @@ def sign_ed25519(payload: dict, did: str, seed: str):
     # To create a random key: key = jwk.JWK.generate(kty='OKP', size=256, crv='Ed25519')
     key = jwk.JWK(
         **{
-            "crv":"Ed25519",
-            "d": d, # private key
-            "kty":"OKP",
-            "size":256,
+            "crv": "Ed25519",
+            "d": d,  # private key
+            "kty": "OKP",
+            "size": 256,
             "x": x,  # public key
         }
     )
@@ -133,7 +134,6 @@ def sign_ed25519(payload: dict, did: str, seed: str):
 
 
 def build_data_from_commits(commits):
-
     # Iterate over the commits and get the data diffs
     patches = []
 
@@ -156,7 +156,11 @@ def build_data_from_commits(commits):
 
     # If the first patch only contains operations, we start with an empty object.
     # In other case, the first patch is the base content.
-    if all(type(ops) == dict and all(field in ops.keys() for field in ["op", "value", "path"]) for ops in patches[0]):
+    if all(
+        type(ops) == dict
+        and all(field in ops.keys() for field in ["op", "value", "path"])
+        for ops in patches[0]
+    ):
         content = {}
     else:
         content = patches.pop(0)
@@ -200,7 +204,7 @@ def encode_and_sign_payload(payload: dict, did: str, did_seed: str) -> dict:
     linked_block = b64encode(encoded_bytes).decode("utf-8")
 
     # SHA256 hash
-    hashed = create_digest( bytearray.fromhex(hashlib.sha256(encoded_bytes).hexdigest()) )
+    hashed = create_digest(bytearray.fromhex(hashlib.sha256(encoded_bytes).hexdigest()))
 
     # Create the hash CID
     cid = CID(base="base32", version=1, codec=DAG_CBOR_CODEC_CODE, digest=hashed)
@@ -214,22 +218,18 @@ def encode_and_sign_payload(payload: dict, did: str, did_seed: str) -> dict:
     # https://github.com/ceramicnetwork/key-did-provider-ed25519/blob/60c78dce7df4d7231bc5280dfcb8d9c953d12a20/src/index.ts#L73
     # https://github.com/decentralized-identity/did-jwt/blob/4efd9a755738a8a6347611cbded042a133d0b91a/src/JWT.ts#L272
     signature_data = json.loads(
-        sign_ed25519(
-            payload_cid.decode("utf-8"),
-            did,
-            did_seed
-        )
+        sign_ed25519(payload_cid.decode("utf-8"), did, did_seed)
     )
 
     return linked_block, link, payload_cid.decode("utf-8"), signature_data
 
-def build_genesis_payload(did, did_seed, data, extra_metadata):
 
+def build_genesis_payload(did, did_seed, data, extra_metadata):
     genesis_data = {
-        "header":{
-            "controllers":[did],
+        "header": {
+            "controllers": [did],
             "unique": get_unique_string(),
-            **extra_metadata
+            **extra_metadata,
         },
     }
 
@@ -237,7 +237,9 @@ def build_genesis_payload(did, did_seed, data, extra_metadata):
         genesis_data["data"] = data
 
     # Encode and sign the data
-    linked_block, link, payload_cid, signature_data = encode_and_sign_payload(genesis_data, did, did_seed)
+    linked_block, link, payload_cid, signature_data = encode_and_sign_payload(
+        genesis_data, did, did_seed
+    )
 
     # Build the payload
     genesis_payload = {
@@ -248,28 +250,35 @@ def build_genesis_payload(did, did_seed, data, extra_metadata):
             "sync": 0,
             "syncTimeoutSeconds": 0,
             "pin": True,
-            "asDID": {'_client': {}, '_resolver': {'registry': {}}, '_id': did}
+            "asDID": {"_client": {}, "_resolver": {"registry": {}}, "_id": did},
         },
         "genesis": {
             "jws": {
-            "payload": payload_cid,
-            "signatures": [
-                {
-                    "protected": signature_data["protected"],
-                    "signature": signature_data["signature"]
-                }
-            ],
-            "link": link
+                "payload": payload_cid,
+                "signatures": [
+                    {
+                        "protected": signature_data["protected"],
+                        "signature": signature_data["signature"],
+                    }
+                ],
+                "link": link,
             },
-            "linkedBlock": linked_block
-        }
+            "linkedBlock": linked_block,
+        },
     }
 
     return genesis_payload
 
 
-def build_commit_payload(did: str, did_seed: str, stream_id: str, initial_data:dict, final_data: dict, genesis_cid: str, previous_cid: str):
-
+def build_commit_payload(
+    did: str,
+    did_seed: str,
+    stream_id: str,
+    initial_data: dict,
+    final_data: dict,
+    genesis_cid: str,
+    previous_cid: str,
+):
     # Create a diff patch from the old data to the new one
     patch = jsonpatch.make_patch(initial_data, final_data)
 
@@ -282,7 +291,9 @@ def build_commit_payload(did: str, did_seed: str, stream_id: str, initial_data:d
     }
 
     # Encode and sign the data
-    linked_block, link, payload_cid, signature_data = encode_and_sign_payload(commit_data, did, did_seed)
+    linked_block, link, payload_cid, signature_data = encode_and_sign_payload(
+        commit_data, did, did_seed
+    )
 
     # Build the update payload
     commit_payload = {
@@ -291,21 +302,21 @@ def build_commit_payload(did: str, did_seed: str, stream_id: str, initial_data:d
             "anchor": True,
             "publish": True,
             "sync": 0,
-            "asDID": {'_client': {}, '_resolver': {'registry': {}}, '_id': did}
+            "asDID": {"_client": {}, "_resolver": {"registry": {}}, "_id": did},
         },
         "commit": {
             "jws": {
-            "payload": payload_cid,
-            "signatures": [
-                {
-                    "protected": signature_data["protected"],
-                    "signature": signature_data["signature"]
-                }
-            ],
-            "link": link
+                "payload": payload_cid,
+                "signatures": [
+                    {
+                        "protected": signature_data["protected"],
+                        "signature": signature_data["signature"],
+                    }
+                ],
+                "link": link,
             },
-            "linkedBlock": linked_block
-        }
+            "linkedBlock": linked_block,
+        },
     }
 
     return commit_payload

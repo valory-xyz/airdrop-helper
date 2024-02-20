@@ -28,7 +28,6 @@ from web3 import Web3
 
 
 class ContractManager:
-
     def __init__(self) -> None:
         """Initializer"""
         self.apis = {}
@@ -36,7 +35,9 @@ class ContractManager:
 
         # Load apis
         for chain_name in CONTRACTS.keys():
-            self.apis[f"{chain_name}"] = Web3(Web3.HTTPProvider(os.getenv(f"{chain_name.upper()}_RPC")))
+            self.apis[f"{chain_name}"] = Web3(
+                Web3.HTTPProvider(os.getenv(f"{chain_name.upper()}_RPC"))
+            )
 
         # Load contracts
         for chain_name, contract_group in CONTRACTS.items():
@@ -44,6 +45,12 @@ class ContractManager:
             for group_name, contracts in contract_group.items():
                 self.contracts[chain_name][group_name] = {}
                 for contract_name, contract_address in contracts.items():
-                    with open(Path("packages", "contracts", f"{contract_name}.json"), "r") as abi_file:
+                    with open(
+                        Path("packages", "contracts", f"{contract_name}.json"), "r"
+                    ) as abi_file:
                         abi = json.load(abi_file)
-                        self.contracts[chain_name][group_name][contract_name] = self.apis[chain_name].eth.contract(address=Web3.to_checksum_address(contract_address), abi=abi)
+                        self.contracts[chain_name][group_name][
+                            contract_name
+                        ] = self.apis[chain_name].eth.contract(
+                            address=Web3.to_checksum_address(contract_address), abi=abi
+                        )

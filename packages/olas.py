@@ -30,7 +30,6 @@ from vote import Voters
 
 
 class Olas:
-
     def __init__(self) -> None:
         """Initializer"""
         load_dotenv()
@@ -41,5 +40,3 @@ class Olas:
         self.bonders = Bonders(self.contract_manager)
         self.nft_owners = NFT(self.contract_manager)
         self.stakers = Stakers(self.contract_manager)
-
-

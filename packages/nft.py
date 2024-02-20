@@ -22,7 +22,6 @@ from constants import CONTRACTS
 
 
 class NFT:
-
     def __init__(self, contract_manager) -> None:
         """Initializer"""
         self.contracts = contract_manager.contracts
@@ -37,6 +36,8 @@ class NFT:
                 for token_id in range(1, n_tokens + 1):
                     owner_address = contract.functions.ownerOf(token_id).call()
                     if owner_address not in address_to_tokens:
-                        address_to_tokens[owner_address] = {chain: 0 for chain in CONTRACTS.keys()}
+                        address_to_tokens[owner_address] = {
+                            chain: 0 for chain in CONTRACTS.keys()
+                        }
                     address_to_tokens[owner_address][chain_name] += 1
         return address_to_tokens

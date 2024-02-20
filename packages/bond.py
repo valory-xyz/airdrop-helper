@@ -21,7 +21,6 @@
 
 
 class Bonders:
-
     def __init__(self, contract_manager) -> None:
         """Initializer"""
         self.depository = contract_manager.contracts["ethereum"]["other"]["depository"]
@@ -36,10 +35,12 @@ class Bonders:
         address_to_amount = {}
         for deposit in deposits:
             owner = deposit.args.owner
-            address_to_amount[owner] = address_to_amount.get(owner, 0) + deposit.args.amountOLAS / 1e18
+            address_to_amount[owner] = (
+                address_to_amount.get(owner, 0) + deposit.args.amountOLAS / 1e18
+            )
 
-        return {k: v for k, v in address_to_amount.items() if v >= min_amount} if min_amount else address_to_amount
-
-
-
-
+        return (
+            {k: v for k, v in address_to_amount.items() if v >= min_amount}
+            if min_amount
+            else address_to_amount
+        )
