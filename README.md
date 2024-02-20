@@ -16,7 +16,7 @@ A tool to measure participation in the Olas ecosystem
     poetry install
     ```
 
-4. Explore the examples in the script at [packages/example.py](https://github.com/valory-xyz/airdrop-helper/blob/main/packages/example.py), for example:
+4. Explore the examples in the script [example.py](https://github.com/valory-xyz/airdrop-helper/blob/main/example.py), for example:
 
     > [NOTE]
     > Some of the following tools require API keys or RPCs to be set in a .env file. Read the example script for more information.
@@ -34,5 +34,5 @@ A tool to measure participation in the Olas ecosystem
 
 5. Modify the script to your needs and run it like:
     ```bash
-    python packages/example.py
+    python example.py
     ```

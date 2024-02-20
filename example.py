@@ -21,7 +21,7 @@
 
 import json
 
-from olas import Olas
+from packages.olas import Olas
 
 
 #############################################################################

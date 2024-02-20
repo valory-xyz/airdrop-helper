@@ -18,7 +18,7 @@
 # ------------------------------------------------------------------------------
 
 """NFT"""
-from constants import CONTRACTS
+from packages.constants import CONTRACTS
 
 
 class NFT:
@@ -32,6 +32,9 @@ class NFT:
         """Get"""
         address_to_tokens = {}
         for chain_name, contract_group in CONTRACTS.items():
+            # Skip Solana for now
+            if chain_name in ["solana"]:
+                continue
             for contract_name in contract_group["registries"].keys():
                 contract = self.contracts[chain_name]["registries"][contract_name]
                 n_tokens = contract.functions.totalSupply().call()

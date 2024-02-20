@@ -23,7 +23,7 @@ import json
 import os
 from pathlib import Path
 
-from constants import CONTRACTS
+from packages.constants import CONTRACTS
 from web3 import Web3
 
 
@@ -37,12 +37,18 @@ class ContractManager:
 
         # Load apis
         for chain_name in CONTRACTS.keys():
+            # Skip Solana for now
+            if chain_name in ["solana"]:
+                continue
             self.apis[f"{chain_name}"] = Web3(
                 Web3.HTTPProvider(os.getenv(f"{chain_name.upper()}_RPC"))
             )
 
         # Load contracts
         for chain_name, contract_group in CONTRACTS.items():
+            # Skip Solana for now
+            if chain_name in ["solana"]:
+                continue
             self.contracts[chain_name] = {}
             for group_name, contracts in contract_group.items():
                 self.contracts[chain_name][group_name] = {}

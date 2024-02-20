@@ -22,7 +22,7 @@
 from typing import Optional
 
 import requests
-from ceramic.payload import (
+from packages.ceramic.payload import (
     build_commit_payload,
     build_data_from_commits,
     build_genesis_payload,

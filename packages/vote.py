@@ -22,7 +22,7 @@
 import os
 
 import requests
-from snapshot import queries
+from packages.snapshot import queries
 
 
 HTTP_OK = 200

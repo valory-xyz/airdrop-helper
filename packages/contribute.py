@@ -19,8 +19,8 @@
 
 """Contribute"""
 
-from ceramic.ceramic import Ceramic
-from constants import CONTRIBUTE_DB_STREAM_ID
+from packages.ceramic.ceramic import Ceramic
+from packages.constants import CONTRIBUTE_DB_STREAM_ID
 
 
 class Contributors:
