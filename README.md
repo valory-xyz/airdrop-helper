@@ -18,7 +18,8 @@ A tool to measure participation in the Olas ecosystem
 
 4. Explore the examples in the script at [packages/example.py](https://github.com/valory-xyz/airdrop-helper/blob/main/packages/example.py), for example:
 
-    [!NOTE] Some of the following tools require API keys or RPCs to be set in a .env file. Read the example script for more information.
+    > [NOTE]
+    > Some of the following tools require API keys or RPCs to be set in a .env file. Read the example script for more information.
 
     ```python
     # Instantiate the Olas airdrop helper
