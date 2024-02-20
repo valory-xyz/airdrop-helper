@@ -34,33 +34,33 @@ from packages.olas import Olas
 olas = Olas()
 
 # Get all Contribute users that have at least 50k points
-contributors = olas.contributors.get(min_points=50000)
-print("\nContributors\n", json.dumps(contributors, indent=4))
+# contributors = olas.contributors.get(min_points=50000)
+# print("\nContributors\n", json.dumps(contributors, indent=4))
 
-# Get addresses that have voted at least 3 times on Snapshot
-snapshot_voters = olas.voters.snapshot.get(min_votes=3)
-print("\nSnapshot voters\n", json.dumps(snapshot_voters, indent=4))
+# # Get addresses that have voted at least 3 times on Snapshot
+# snapshot_voters = olas.voters.snapshot.get(min_votes=3)
+# print("\nSnapshot voters\n", json.dumps(snapshot_voters, indent=4))
 
-# Get addresses that have voted at least 3 times on Boardroom
-# Requires BOARDROOM_API_KEY to be set in the .env file
-# See https://docs.boardroom.io/docs/api/cd5e0c8aa2bc1-overview#request-an-api-key
-boardroom_voters = olas.voters.boardroom.get()
-print("\nBoardroom voters\n", json.dumps(boardroom_voters, indent=4))
+# # Get addresses that have voted at least 3 times on Boardroom
+# # Requires BOARDROOM_API_KEY to be set in the .env file
+# # See https://docs.boardroom.io/docs/api/cd5e0c8aa2bc1-overview#request-an-api-key
+# boardroom_voters = olas.voters.boardroom.get()
+# print("\nBoardroom voters\n", json.dumps(boardroom_voters, indent=4))
 
-# Get veOLAS holders at a given block (ignore block argument to retrieve latest)
-# Requires ETHEREUM_RPC to be set in the .env file
-veolas_holders = olas.veolas_holders.get(block=19263301)
-print("\nveOLAS holders\n", json.dumps(veolas_holders, indent=4))
+# # Get veOLAS holders at a given block (ignore block argument to retrieve latest)
+# # Requires ETHEREUM_RPC to be set in the .env file
+# veolas_holders = olas.veolas_holders.get(block=19263301)
+# print("\nveOLAS holders\n", json.dumps(veolas_holders, indent=4))
 
-# Get service, agent and component NFT owners
-# Requires RPC to be set in the .env file for all the chains you need to interact with
-nft_holders = olas.nft_owners.get()
-print("\nNFT owners\n", json.dumps(nft_holders, indent=4))
+# # Get service, agent and component NFT owners
+# # Requires RPC to be set in the .env file for all the chains you need to interact with
+# nft_holders = olas.nft_owners.get()
+# print("\nNFT owners\n", json.dumps(nft_holders, indent=4))
 
-# Get stakers who have participated in Everest or Alpine programmes
-# Requires GNOSIS_RPC to be set in the .env file
-stakers = olas.stakers.get()
-print("\nStakers\n", json.dumps(stakers, indent=4))
+# # Get stakers who have participated in Everest or Alpine programmes
+# # Requires GNOSIS_RPC to be set in the .env file
+# stakers = olas.stakers.get()
+# print("\nStakers\n", json.dumps(stakers, indent=4))
 
 # Get addresses that have bonded up to a given block (ignore block argument to retrieve latest)
 # Requires ETHEREUM_RPC to be set in the .env file

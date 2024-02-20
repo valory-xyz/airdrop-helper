@@ -41,13 +41,26 @@ class ContractManager:
         self.contracts = {}
 
         # Load apis
+        missing_rpcs = {}
         for chain_name in CONTRACTS.keys():
             # Skip Solana for now
             if chain_name in ["solana"]:
                 continue
-            self.apis[f"{chain_name}"] = Web3(
-                Web3.HTTPProvider(os.getenv(f"{chain_name.upper()}_RPC"))
+
+            rpc_var_name = f"{chain_name.upper()}_RPC"
+            rpc = os.getenv(rpc_var_name)
+
+            if not rpc:
+                missing_rpcs[chain_name] = rpc_var_name
+
+            self.apis[f"{chain_name}"] = Web3(Web3.HTTPProvider(rpc))
+
+        # Warn about missing rpcs
+        if missing_rpcs:
+            print(
+                f"WARNING: the env vars {list(missing_rpcs.values())} have not been set. Trying to make calls to {list(missing_rpcs.keys())} chains will result in errors."
             )
+            input("Press enter key to continue...")
 
         # Load contracts
         for chain_name, contract_group in CONTRACTS.items():
