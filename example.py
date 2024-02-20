@@ -47,9 +47,9 @@ print("\nSnapshot voters\n", json.dumps(snapshot_voters, indent=4))
 boardroom_voters = olas.voters.boardroom.get()
 print("\nBoardroom voters\n", json.dumps(boardroom_voters, indent=4))
 
-# Get veOLAS holders at a given block (ignore block argument to retrieve latest)
+# Get veOLAS holders at a given block (ignore block argument to retrieve latest) with a minimum voting power of 100
 # Requires ETHEREUM_RPC to be set in the .env file
-veolas_holders = olas.veolas_holders.get(block=19263301)
+veolas_holders = olas.veolas_holders.get(block=19263301, min_power=100)
 print("\nveOLAS holders\n", json.dumps(veolas_holders, indent=4))
 
 # Get addresses that have bonded up to a given block (ignore block argument to retrieve latest)

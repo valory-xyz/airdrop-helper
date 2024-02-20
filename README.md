@@ -11,7 +11,6 @@ A tool to measure participation in the Olas ecosystem
 
 3. Prepare the virtual environment and install dependencies
     ```bash
-    cd packages
     poetry shell
     poetry install
     ```
@@ -28,8 +27,8 @@ A tool to measure participation in the Olas ecosystem
     # Get all Contribute users that have at least 50k points
     contributors = olas.contributors.get(min_points=50000)
 
-    # Get veOLAS holders at a given block
-    veolas_holders = olas.veolas_holders.get(block=19263301)
+    # Get veOLAS holders at a given block with a minimum voting power of 100
+    veolas_holders = olas.veolas_holders.get(block=19263301, min_power=100)
     ``````
 
 5. Modify the script to your needs and run it like:
