@@ -19,7 +19,7 @@
 
 """Contribute"""
 
-from ceramic import Ceramic
+from ceramic.ceramic import Ceramic
 from constants import CONTRIBUTE_DB_STREAM_ID
 
 

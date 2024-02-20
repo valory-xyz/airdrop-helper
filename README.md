@@ -31,3 +31,8 @@ A tool to measure participation in the Olas ecosystem
     # Get veOLAS holders at a given block
     veolas_holders = olas.veolas_holders.get(block=19263301)
     ``````
+
+5. Modify the script to your needs and run it like:
+    ```bash
+    python packages/example.py
+    ```
