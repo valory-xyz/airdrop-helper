@@ -19,6 +19,7 @@
 
 """Vote"""
 
+import csv
 import os
 
 import requests
@@ -72,17 +73,29 @@ class Snapshot:
 
         return votes
 
-    def get(self, min_votes=None):
+    def get(self, min_votes=None, csv_dump=False):
         """Get"""
         votes = self._get_votes()
         address_to_votes = {}
         for vote in votes:
             address_to_votes[vote["voter"]] = address_to_votes.get(vote["voter"], 0) + 1
-        return (
+        address_to_votes = (
             {k: v for k, v in address_to_votes.items() if v >= min_votes}
             if min_votes
             else address_to_votes
         )
+
+        if csv_dump:
+            self.dump(address_to_votes)
+
+        return address_to_votes
+
+    def dump(self, address_to_votes):
+        """Write to csv"""
+        with open("snapshot_voters.csv", "w") as file:
+            writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(["address", "votes"])
+            writer.writerows(list(address_to_votes.items()))
 
 
 class Boardroom:
@@ -118,14 +131,26 @@ class Boardroom:
 
         return votes
 
-    def get(self, min_votes=None):
+    def get(self, min_votes=None, csv_dump=False):
         """Get"""
         votes = self._get_votes()
         address_to_votes = {
             vote["address"]: vote["protocols"][0]["totalVotesCast"] for vote in votes
         }
-        return (
+        address_to_votes = (
             {k: v for k, v in address_to_votes.items() if v >= min_votes}
             if min_votes
             else address_to_votes
         )
+
+        if csv_dump:
+            self.dump(address_to_votes)
+
+        return address_to_votes
+
+    def dump(self, address_to_votes):
+        """Write to csv"""
+        with open("boardroom_voters.csv", "w") as file:
+            writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(["address", "votes"])
+            writer.writerows(list(address_to_votes.items()))

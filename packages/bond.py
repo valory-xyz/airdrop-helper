@@ -19,6 +19,8 @@
 
 """Bond"""
 
+import csv
+
 
 class Bonders:
     """Bonders"""
@@ -31,7 +33,7 @@ class Bonders:
                 "depository"
             ]
 
-    def get(self, block=None, min_amount=None):
+    def get(self, block=None, min_amount=None, csv_dump=False):
         """Get"""
         if "ethereum" in self.contract_manager.skip_chains:
             print("Warning: Missing ETHEREUM_RPC. Skipping call to Ethereum chain")
@@ -49,8 +51,20 @@ class Bonders:
                 address_to_amount.get(owner, 0) + deposit.args.amountOLAS / 1e18
             )
 
-        return (
+        address_to_amount = (
             {k: v for k, v in address_to_amount.items() if v >= min_amount}
             if min_amount
             else address_to_amount
         )
+
+        if csv_dump:
+            self.dump(address_to_amount)
+
+        return address_to_amount
+
+    def dump(self, address_to_amount):
+        """Write to csv"""
+        with open("bonders.csv", "w") as file:
+            writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(["address", "bonded_amount"])
+            writer.writerows(list(address_to_amount.items()))

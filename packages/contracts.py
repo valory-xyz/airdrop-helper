@@ -100,7 +100,9 @@ class ContractManager:
         events = []
         from_block = start_block
 
-        print(f"Requested events from blocks {start_block} to {latest_block}")
+        print(
+            f"Requested events from blocks {start_block} to {latest_block} [{latest_block - start_block} blocks]"
+        )
 
         while True:
             to_block = latest_block

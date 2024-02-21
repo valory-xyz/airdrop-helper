@@ -18,6 +18,8 @@
 # ------------------------------------------------------------------------------
 
 """NFT"""
+import csv
+
 from packages.constants import CONTRACTS
 
 
@@ -29,7 +31,7 @@ class NFT:
         self.contract_manager = contract_manager
         self.contracts = contract_manager.contracts
 
-    def get(self):
+    def get(self, csv_dump=False):
         """Get"""
         address_to_tokens = {}
         for chain_name, contract_group in CONTRACTS.items():
@@ -49,4 +51,21 @@ class NFT:
                             chain: 0 for chain in CONTRACTS.keys()
                         }
                     address_to_tokens[owner_address][chain_name] += 1
+
+        if csv_dump:
+            self.dump(address_to_tokens)
+
         return address_to_tokens
+
+    def dump(self, address_to_tokens):
+        """Write to csv"""
+        with open("nft_holders.csv", "w") as file:
+            chains = list(self.contracts.keys())
+            writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(["address"] + [f"{chain}_nfts" for chain in chains])
+            writer.writerows(
+                [
+                    [k] + [v[chain] for chain in chains]
+                    for k, v in address_to_tokens.items()
+                ]
+            )

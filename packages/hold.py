@@ -19,6 +19,8 @@
 
 """Hold"""
 
+import csv
+
 
 class veOLAS:
     """veOLAS"""
@@ -49,7 +51,7 @@ class veOLAS:
 
         return list(addresses)
 
-    def get(self, block, min_power=0):
+    def get(self, block, min_power=0, csv_dump=False):
         """Get voting power per holder"""
         if "ethereum" in self.contract_manager.skip_chains:
             print("Warning: Missing ETHEREUM_RPC. Skipping call to Ethereum chain")
@@ -62,4 +64,16 @@ class veOLAS:
             for address in holders
         }
 
-        return {k: v for k, v in address_to_votes.items() if v >= min_power}
+        address_to_votes = {k: v for k, v in address_to_votes.items() if v >= min_power}
+
+        if csv_dump:
+            self.dump(address_to_votes)
+
+        return address_to_votes
+
+    def dump(self, address_to_votes):
+        """Write to csv"""
+        with open("veolas_power.csv", "w") as file:
+            writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(["address", "veolas_power"])
+            writer.writerows(list(address_to_votes.items()))

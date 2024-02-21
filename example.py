@@ -34,35 +34,40 @@ from packages.olas import Olas
 olas = Olas()
 
 # Get all Contribute users that have at least 50k points
-contributors = olas.contributors.get(min_points=50000)
+contributors = olas.contributors.get(min_points=50000, csv_dump=True)
 print("\nContributors\n", json.dumps(contributors, indent=4))
 
 # Get addresses that have voted at least 3 times on Snapshot
-snapshot_voters = olas.voters.snapshot.get(min_votes=3)
+snapshot_voters = olas.voters.snapshot.get(min_votes=3, csv_dump=True)
 print("\nSnapshot voters\n", json.dumps(snapshot_voters, indent=4))
 
 # Get addresses that have voted at least 3 times on Boardroom
 # Requires BOARDROOM_API_KEY to be set in the .env file
 # See https://docs.boardroom.io/docs/api/cd5e0c8aa2bc1-overview#request-an-api-key
-boardroom_voters = olas.voters.boardroom.get()
+boardroom_voters = olas.voters.boardroom.get(min_votes=3, csv_dump=True)
 print("\nBoardroom voters\n", json.dumps(boardroom_voters, indent=4))
 
 # Get veOLAS holders at a given block (ignore block argument to retrieve latest) with a minimum voting power of 100
 # Requires ETHEREUM_RPC to be set in the .env file
-veolas_holders = olas.veolas_holders.get(block=19263301, min_power=100)
+veolas_holders = olas.veolas_holders.get(block=19263301, min_power=100, csv_dump=True)
 print("\nveOLAS holders\n", json.dumps(veolas_holders, indent=4))
 
 # Get addresses that have bonded up to a given block (ignore block argument to retrieve latest)
 # Requires ETHEREUM_RPC to be set in the .env file
-bonders = olas.bonders.get(block=19269490)
+bonders = olas.bonders.get(block=19269490, csv_dump=True)
 print("\nBonders\n", json.dumps(bonders, indent=4))
 
 # Get service, agent and component NFT owners
 # Requires RPC to be set in the .env file for all the chains you need to interact with
-nft_holders = olas.nft_owners.get()
+nft_holders = olas.nft_owners.get(csv_dump=True)
 print("\nNFT owners\n", json.dumps(nft_holders, indent=4))
 
-# Get stakers who have participated in Everest or Alpine programmes up to a given block
+# Get stakers who have participated in the Alpine programme up to a given block
 # Requires GNOSIS_RPC to be set in the .env file
-stakers = olas.stakers.get(block=32122777)
-print("\nStakers\n", json.dumps(stakers, indent=4))
+alpine_stakers = olas.stakers.alpine.get(block=32130064, csv_dump=True)
+print("\nAlpine stakers\n", json.dumps(alpine_stakers, indent=4))
+
+# Get stakers who have participated in the Everest programme up to a given block
+# Requires GNOSIS_RPC to be set in the .env file
+everest_stakers = olas.stakers.everest.get(block=30768378, csv_dump=True)
+print("\nEverest stakers\n", json.dumps(everest_stakers, indent=4))

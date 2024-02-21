@@ -19,8 +19,74 @@
 
 """Stake"""
 
-ALPINE_DEPLOYMENT_BLOCK = 32121777
+import csv
+
+
+ALPINE_DEPLOYMENT_BLOCK = 32120064
 EVEREST_DEPLOYMENT_BLOCK = 30758378
+
+
+class StakingProgramme:
+    """StakingProgramme"""
+
+    def __init__(
+        self, contract_manager, staking_contract_name, deployment_block=0
+    ) -> None:
+        """Initializer"""
+        self.contract_manager = contract_manager
+        self.staking_contract_name = staking_contract_name
+        if "gnosis" not in self.contract_manager.skip_chains:
+            self.gnosis_service_registry = contract_manager.contracts["gnosis"][
+                "registries"
+            ]["service_registry"]
+            self.staking_contract = contract_manager.contracts["gnosis"]["staking"][
+                staking_contract_name
+            ]
+        self.deployment_block = deployment_block
+
+    def get(self, block=None, csv_dump=False):
+        """Get"""
+        if "gnosis" in self.contract_manager.skip_chains:
+            print("Warning: Missing GNOSIS_RPC. Skipping call to Gnosis chain")
+            return []
+
+        stakes = self.contract_manager.get_events(
+            "gnosis",
+            self.staking_contract,
+            "ServiceStaked",
+            self.deployment_block,
+            block,
+        )
+
+        staking_owners = list(set(stake.args.owner for stake in stakes))
+
+        if csv_dump:
+            self.dump(staking_owners)
+
+        return staking_owners
+
+    def dump(self, staking_owners):
+        """Write to csv"""
+        with open(f"{self.staking_contract_name}_stakers.csv", "w") as file:
+            writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(["address"])
+            writer.writerows([[owner] for owner in staking_owners])
+
+
+class Alpine(StakingProgramme):
+    """Alpine"""
+
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        super().__init__(contract_manager, "alpine", ALPINE_DEPLOYMENT_BLOCK)
+
+
+class Everest(StakingProgramme):
+    """Everest"""
+
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        super().__init__(contract_manager, "everest", EVEREST_DEPLOYMENT_BLOCK)
 
 
 class Stakers:
@@ -28,28 +94,5 @@ class Stakers:
 
     def __init__(self, contract_manager) -> None:
         """Initializer"""
-        self.contract_manager = contract_manager
-        if "gnosis" not in self.contract_manager.skip_chains:
-            self.alpine = contract_manager.contracts["gnosis"]["staking"]["alpine"]
-            self.everest = contract_manager.contracts["gnosis"]["staking"]["everest"]
-            self.gnosis_service_registry = contract_manager.contracts["gnosis"][
-                "registries"
-            ]["service_registry"]
-
-    def get(self, block=None):
-        """Get"""
-        if "gnosis" in self.contract_manager.skip_chains:
-            print("Warning: Missing GNOSIS_RPC. Skipping call to Gnosis chain")
-            return []
-
-        alpine_stakes = self.contract_manager.get_events(
-            "gnosis", self.alpine, "ServiceStaked", ALPINE_DEPLOYMENT_BLOCK, block
-        )
-        everest_stakes = self.contract_manager.get_events(
-            "gnosis", self.everest, "ServiceStaked", EVEREST_DEPLOYMENT_BLOCK, block
-        )
-
-        staking_owners = list(
-            set(stake.args.owner for stake in alpine_stakes + everest_stakes)
-        )
-        return staking_owners
+        self.alpine = Alpine(contract_manager)
+        self.everest = Everest(contract_manager)
