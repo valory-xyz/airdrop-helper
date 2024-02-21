@@ -44,6 +44,7 @@ class NFT:
             for contract_name in contract_group["registries"].keys():
                 contract = self.contracts[chain_name]["registries"][contract_name]
                 n_tokens = contract.functions.totalSupply().call()
+                print(f"Pulling {n_tokens} tokens from {chain_name}/{contract_name}...")
                 for token_id in range(1, n_tokens + 1):
                     owner_address = contract.functions.ownerOf(token_id).call()
                     if owner_address not in address_to_tokens:
