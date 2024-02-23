@@ -55,7 +55,10 @@ class veOLAS:
         """Get voting power per holder"""
         if "ethereum" in self.contract_manager.skip_chains:
             print("Warning: Missing ETHEREUM_RPC. Skipping call to Ethereum chain")
-            return []
+            return {}
+
+        if block == "latest":
+            block = self.contract_manager.apis["ethereum"].eth.get_block("latest").number
 
         holders = self._get_veolas_holders(block)
 

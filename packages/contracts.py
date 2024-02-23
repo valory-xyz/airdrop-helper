@@ -124,8 +124,13 @@ class ContractManager:
                     .get_all_entries()
                 )
             except InsufficientDataBytes:
+                print("InsufficientDataBytes exception. Retrying...")
                 continue
             except ValueError:
+                print("ValueError exception. Retrying...")
+                continue
+            except OverflowError:
+                print("OverflowError exception. Retrying...")
                 continue
 
             events.extend(new_events)

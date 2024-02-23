@@ -50,6 +50,9 @@ class StakingProgramme:
             print("Warning: Missing GNOSIS_RPC. Skipping call to Gnosis chain")
             return []
 
+        if block == "latest":
+            block = self.contract_manager.apis["gnosis"].eth.get_block("latest").number
+
         stakes = self.contract_manager.get_events(
             "gnosis",
             self.staking_contract,
