@@ -7,7 +7,7 @@ A tool to measure participation in the Olas ecosystem
 > Valory AG is not responsible for any airdrops resulting from use of this resource.
 > Exercise caution and use this code at your own risk. Please refer to the [LICENSE](./LICENSE) file for details about the terms and conditions.
 
-## How to use
+## Preparation
 
 1. Clone this repo
 
@@ -25,10 +25,23 @@ A tool to measure participation in the Olas ecosystem
     ```
     And populate the environment variables as required.
 
-5. Explore the examples in the script [example.py](https://github.com/valory-xyz/airdrop-helper/blob/main/example.py), for example:
+## Run an existing airdrop example
 
-    > [NOTE]
-    > Some of the following tools require API keys or RPCs to be set in a .env file. Read the example script for more information.
+1. Explore the airdrop example in the script [airdrop_example.py](https://github.com/valory-xyz/airdrop-helper/blob/main/airdrop_example.py).
+
+2. Adjust the airdrop parameters and run the script like:
+    > **Note** <br />
+    > Some of the tools require API keys or RPCs to be set in a .env file. Read the example scripts for more information.
+    ```bash
+    python airdrop_example.py
+    ```
+
+## Create your own airdrop logic
+
+1. Explore the examples in the script [basic_example.py](https://github.com/valory-xyz/airdrop-helper/blob/main/basic_example.py), for example:
+
+    > **Note** <br />
+    > Some of the tools require API keys or RPCs to be set in a .env file. Read the example scripts for more information.
 
     ```python
     # Instantiate the Olas airdrop helper
@@ -41,7 +54,7 @@ A tool to measure participation in the Olas ecosystem
     veolas_holders = olas.veolas_holders.get(block=19263301, min_power=100)
     ``````
 
-6. Modify the script to your needs and run it like:
+2. Modify the script to your needs and run it like:
     ```bash
-    python example.py
+    python basic_example.py
     ```
