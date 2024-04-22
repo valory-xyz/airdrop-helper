@@ -11,3 +11,5 @@ packages/ceramic/__pycache__/
 .env
 
 *.csv
+
+*.json

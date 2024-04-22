@@ -34,7 +34,7 @@ from packages.olas import Olas
 olas = Olas()
 
 # Get all Contribute users that have at least 50k points
-contributors = olas.contributors.get(min_points=50000, csv_dump=True)
+contributors = olas.contributors.get(min_points=100, csv_dump=True)
 print("\nContributors\n", json.dumps(contributors, indent=4))
 
 # Get addresses that have voted at least 3 times on Snapshot

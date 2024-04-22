@@ -47,6 +47,7 @@ class Airdrop():
 
         # Contribute
         weight = self.parameters["weight_per_contributor"]
+        use_decile_based_multiplier = self.parameters["use_decile_based_multiplier"]
 
         if weight:
             print("Collecting contributors...")
@@ -56,7 +57,8 @@ class Airdrop():
             )
 
             for c in contributors:
-                self.add_weight(c["wallet_address"], weight)
+                point_multiplier = c["point_multiplier"] if use_decile_based_multiplier else 1
+                self.add_weight(c["wallet_address"], weight * c["points"] * point_multiplier)
 
         # Snapshot
         weight = self.parameters["weight_per_vote"]
