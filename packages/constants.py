@@ -20,7 +20,7 @@
 """Constants"""
 
 CONTRIBUTE_DB_STREAM_ID = (
-    "kjzl6cwe1jw14647dyyzcfgi6dy9klgy87smm84dehcniwg1x8tjkg74u16pi4l"
+    "kjzl6cwe1jw148mppot8a8vtq8glw5km6djc8dbfj4q0sztpqd0h05a2m5zsgp6"
 )
 
 CONTRACTS = {
