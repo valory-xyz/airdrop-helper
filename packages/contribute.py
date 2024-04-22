@@ -20,7 +20,7 @@
 """Contribute"""
 
 import csv
-
+import json
 from packages.ceramic.ceramic import Ceramic
 from packages.constants import CONTRIBUTE_DB_STREAM_ID
 
@@ -40,10 +40,17 @@ class Contributors:
             if min_points
             else data["users"]
         )
+
+        points = [u["points"] for u in users]
+        points_min = min(points)
+        points_max = max(points)
+
         for user in users:
             del user["tweet_id_to_points"]
             del user["current_period_points"]
-
+            # Calculate the user decile
+            decile = int((user["points"] - points_min) / (points_max - points_min) / 0.1)
+            user["point_multiplier"] = 1 + decile
         if csv_dump:
             self.dump(users)
 
@@ -65,3 +72,6 @@ class Contributors:
                     for user in users
                 ]
             )
+
+        with open("contributors.json", "w") as file:
+            json.dump(users, file, indent=4)

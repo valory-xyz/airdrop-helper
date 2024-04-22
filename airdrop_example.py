@@ -36,6 +36,7 @@ parameters = {
     # Contributors
     "weight_per_contributor": 1,
     "min_contribute_points": 100,
+    "use_decile_based_multiplier": True,
 
     # Voters
     "weight_per_vote": 1,
