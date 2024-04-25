@@ -21,6 +21,8 @@
 
 import csv
 import json
+from pathlib import Path
+
 from packages.ceramic.ceramic import Ceramic
 from packages.constants import CONTRIBUTE_DB_STREAM_ID
 
@@ -49,7 +51,9 @@ class Contributors:
             del user["tweet_id_to_points"]
             del user["current_period_points"]
             # Calculate the user decile
-            decile = int((user["points"] - points_min) / (points_max - points_min) / 0.1)
+            decile = int(
+                (user["points"] - points_min) / (points_max - points_min) / 0.1
+            )
             user["point_multiplier"] = 1 + decile
         if csv_dump:
             self.dump(users)
@@ -58,7 +62,7 @@ class Contributors:
 
     def dump(self, users):
         """Write to csv"""
-        with open("contributors.csv", "w") as file:
+        with open(Path("data", "contributors.csv"), "w") as file:
             writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
             writer.writerow(["twitter_handle", "discord_handle", "address", "points"])
             writer.writerows(
@@ -73,5 +77,5 @@ class Contributors:
                 ]
             )
 
-        with open("contributors.json", "w") as file:
+        with open(Path("data", "contributors.csv"), "w") as file:
             json.dump(users, file, indent=4)

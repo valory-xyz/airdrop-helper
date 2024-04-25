@@ -20,6 +20,7 @@
 """Stake"""
 
 import csv
+from pathlib import Path
 
 
 ALPINE_DEPLOYMENT_BLOCK = 32120064
@@ -70,7 +71,9 @@ class StakingProgramme:
 
     def dump(self, staking_owners):
         """Write to csv"""
-        with open(f"{self.staking_contract_name}_stakers.csv", "w") as file:
+        with open(
+            Path("data", f"{self.staking_contract_name}_stakers.csv"), "w"
+        ) as file:
             writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
             writer.writerow(["address"])
             writer.writerows([[owner] for owner in staking_owners])

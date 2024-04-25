@@ -52,6 +52,11 @@ print("\nBoardroom voters\n", json.dumps(boardroom_voters, indent=4))
 veolas_holders = olas.veolas_holders.get(block=19263301, min_power=100, csv_dump=True)
 print("\nveOLAS holders\n", json.dumps(veolas_holders, indent=4))
 
+# Get OLAS holders at a given block (ignore block argument to retrieve latest) with a minimum balance power of 100 OLAS
+# Requires ETHEREUM_RPC to be set in the .env file
+olas_holders = olas.olas_holders.get(block=19733758, min_balance_wei=int(100e18), csv_dump=True)
+print("\nOLAS holders\n", json.dumps(olas_holders, indent=4))
+
 # Get addresses that have bonded up to a given block (ignore block argument to retrieve latest)
 # Requires ETHEREUM_RPC to be set in the .env file
 bonders = olas.bonders.get(block=19269490, csv_dump=True)

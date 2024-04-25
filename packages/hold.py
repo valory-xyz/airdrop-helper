@@ -20,6 +20,10 @@
 """Hold"""
 
 import csv
+import os
+from pathlib import Path
+
+from packages.erc20_parser import ERC20Parser
 
 
 class veOLAS:
@@ -58,7 +62,9 @@ class veOLAS:
             return {}
 
         if block == "latest":
-            block = self.contract_manager.apis["ethereum"].eth.get_block("latest").number
+            block = (
+                self.contract_manager.apis["ethereum"].eth.get_block("latest").number
+            )
 
         holders = self._get_veolas_holders(block)
 
@@ -76,7 +82,59 @@ class veOLAS:
 
     def dump(self, address_to_votes):
         """Write to csv"""
-        with open("veolas_power.csv", "w") as file:
+        with open(Path("data", "veolas_power.csv"), "w") as file:
             writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
             writer.writerow(["address", "veolas_power"])
             writer.writerows(list(address_to_votes.items()))
+
+
+class OLAS:
+    """OLAS"""
+
+    DEPLOYMENT_BLOCK = 15000000
+
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        self.contract_manager = contract_manager
+        if "ethereum" not in self.contract_manager.skip_chains:
+            self.olas = contract_manager.contracts["ethereum"]["other"]["olas"]
+
+    def get(self, block, min_balance_wei=0, csv_dump=False):
+        """Get voting power per holder"""
+        if "ethereum" in self.contract_manager.skip_chains:
+            print("Warning: Missing ETHEREUM_RPC. Skipping call to Ethereum chain")
+            return {}
+
+        if block == "latest":
+            block = (
+                self.contract_manager.apis["ethereum"].eth.get_block("latest").number
+            )
+
+        # Parse events
+        token_parser = ERC20Parser(self.olas)
+        if not os.path.isfile(token_parser.BALANCES_JSON_FILE):
+            token_parser.parse_transfer_events(
+                from_block=self.DEPLOYMENT_BLOCK, to_block=block
+            )
+            token_parser.sort_events()
+            token_parser.clean_event_duplications()
+        token_parser.build_balance_history()
+
+        # Check balances
+        address_to_balance = {}
+        for address in token_parser.balances.keys():
+            balance = token_parser.get_balance(address, block)
+            if balance >= min_balance_wei:
+                address_to_balance[address] = balance
+
+        if csv_dump:
+            self.dump(address_to_balance)
+
+        return address_to_balance
+
+    def dump(self, address_to_balance):
+        """Write to csv"""
+        with open(Path("data", "olas_balances.csv"), "w") as file:
+            writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
+            writer.writerow(["address", "balance"])
+            writer.writerows(list(address_to_balance.items()))

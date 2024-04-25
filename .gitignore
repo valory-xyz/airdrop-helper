@@ -8,8 +8,9 @@ packages/snapshot/__pycache__/
 packages/ceramic/__pycache__/
 
 .tox/
+
 .env
 
-*.csv
+data/contributors.csv
 
-*.json
+data/contributors.json

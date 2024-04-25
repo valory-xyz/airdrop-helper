@@ -21,6 +21,7 @@
 
 import csv
 import os
+from pathlib import Path
 
 import requests
 
@@ -92,7 +93,7 @@ class Snapshot:
 
     def dump(self, address_to_votes):
         """Write to csv"""
-        with open("snapshot_voters.csv", "w") as file:
+        with open(Path("data", "snapshot_voters.csv"), "w") as file:
             writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
             writer.writerow(["address", "votes"])
             writer.writerows(list(address_to_votes.items()))
@@ -150,7 +151,7 @@ class Boardroom:
 
     def dump(self, address_to_votes):
         """Write to csv"""
-        with open("boardroom_voters.csv", "w") as file:
+        with open(Path("data", "boardroom_voters.csv"), "w") as file:
             writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
             writer.writerow(["address", "votes"])
             writer.writerows(list(address_to_votes.items()))
