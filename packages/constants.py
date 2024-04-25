@@ -32,6 +32,7 @@ CONTRACTS = {
         },
         "other": {
             "veolas": "0x7e01a500805f8a52fad229b3015ad130a332b7b3",
+            "olas": "0x0001A500A6B18995B03f44bb040A5fFc28E45CB0",
             "wveolas": "0x4039B809E0C0Ad04F6Fc880193366b251dDf4B40",
             "depository": "0xfF8697d8d2998d6AA2e09B405795C6F4BEeB0C81",
         },

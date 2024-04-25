@@ -19,10 +19,13 @@
 
 """Airdrop"""
 
-from packages.olas import Olas
 import csv
+from pathlib import Path
 
-class Airdrop():
+from packages.olas import Olas
+
+
+class Airdrop:
     """Airdrop"""
 
     def __init__(self, parameters) -> None:
@@ -31,7 +34,6 @@ class Airdrop():
         self.parameters = parameters
         self.weights = {}
 
-
     def add_weight(self, address, weight):
         """Add weight"""
         if not address:
@@ -39,7 +41,6 @@ class Airdrop():
         if address in self.parameters["skip_wallets"]:
             return
         self.weights[address] = self.weights.get(address, 0) + weight
-
 
     def calculate(self, csv_dump=False):
         """Calculate"""
@@ -57,8 +58,12 @@ class Airdrop():
             )
 
             for c in contributors:
-                point_multiplier = c["point_multiplier"] if use_decile_based_multiplier else 1
-                self.add_weight(c["wallet_address"], weight * c["points"] * point_multiplier)
+                point_multiplier = (
+                    c["point_multiplier"] if use_decile_based_multiplier else 1
+                )
+                self.add_weight(
+                    c["wallet_address"], weight * c["points"] * point_multiplier
+                )
 
         # Snapshot
         weight = self.parameters["weight_per_vote"]
@@ -87,7 +92,7 @@ class Airdrop():
                 self.add_weight(address, votes * weight)
 
         # veOLAS holders
-        weight = self.parameters["weight_per_holder"]
+        weight = self.parameters["weight_per_veolas_holder"]
 
         if weight:
             print("Collecting veOLAS holders...")
@@ -99,6 +104,20 @@ class Airdrop():
             for address in veolas_holders.keys():
                 self.add_weight(address, weight)
 
+        # OLAS holders
+        weight = self.parameters["weight_per_olas_holder"]
+
+        if weight:
+            print("Collecting OLAS holders...")
+
+            olas_holders = self.olas.olas_holders.get(
+                block=block, min_balance_wei=self.parameters["min_olas_balance_wei"]
+            )
+
+            for address, balance in olas_holders.items():
+                multiplier = 1 if self.parameters["constant_reward"] else balance / 1e18
+                self.add_weight(address, weight * multiplier)
+
         # Bonders
         weight = self.parameters["weight_per_bonder"]
 
@@ -106,8 +125,7 @@ class Airdrop():
             print("Collecting bonders...")
 
             bonders = self.olas.bonders.get(
-                block=block,
-                min_amount=self.parameters["min_bond_amount"]
+                block=block, min_amount=self.parameters["min_bond_amount"]
             )
 
             for address in bonders.keys():
@@ -143,7 +161,7 @@ class Airdrop():
         rewards = {k: v * allocation_per_weight for k, v in self.weights.items()}
 
         # Sort by reward
-        rewards = dict(sorted(rewards.items(), key=lambda x:x[1], reverse=True))
+        rewards = dict(sorted(rewards.items(), key=lambda x: x[1], reverse=True))
 
         if csv_dump:
             self.dump(rewards)
@@ -152,7 +170,7 @@ class Airdrop():
 
     def dump(self, rewards):
         """Write to csv"""
-        with open("airdrop.csv", "w") as file:
+        with open(Path("data", "airdrop.csv"), "w") as file:
             writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
             writer.writerow(["address", "allocation"])
             writer.writerows(list(rewards.items()))

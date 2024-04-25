@@ -24,7 +24,7 @@ from dotenv import load_dotenv
 from packages.bond import Bonders
 from packages.contracts import ContractManager
 from packages.contribute import Contributors
-from packages.hold import veOLAS
+from packages.hold import OLAS, veOLAS
 from packages.nft import NFT
 from packages.stake import Stakers
 from packages.vote import Voters
@@ -40,6 +40,7 @@ class Olas:
         self.contributors = Contributors()
         self.voters = Voters()
         self.veolas_holders = veOLAS(self.contract_manager)
+        self.olas_holders = OLAS(self.contract_manager)
         self.bonders = Bonders(self.contract_manager)
         self.nft_owners = NFT(self.contract_manager)
         self.stakers = Stakers(self.contract_manager)

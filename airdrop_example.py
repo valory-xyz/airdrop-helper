@@ -43,8 +43,13 @@ parameters = {
     "min_votes": 1,
 
     # veOLAS holders
-    "weight_per_holder": 1,
+    "weight_per_veolas_holder": 1,
     "min_voting_power": 1,
+
+    # OLAS holders
+    "weight_per_olas_holder": 1,
+    "min_olas_balance_wei": int(100e18),
+    "constant_reward": True,  # same amount for olas holder. Set to False to make it proportional to balances
 
     # Bonders
     "weight_per_bonder": 1,

@@ -20,6 +20,7 @@
 """Bond"""
 
 import csv
+from pathlib import Path
 
 
 class Bonders:
@@ -64,7 +65,7 @@ class Bonders:
 
     def dump(self, address_to_amount):
         """Write to csv"""
-        with open("bonders.csv", "w") as file:
+        with open(Path("data", "bonders.csv"), "w") as file:
             writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
             writer.writerow(["address", "bonded_amount"])
             writer.writerows(list(address_to_amount.items()))
