@@ -10,3 +10,7 @@ packages/ceramic/__pycache__/
 .tox/
 
 .env
+
+data/contributors.csv
+
+data/contributors.json
