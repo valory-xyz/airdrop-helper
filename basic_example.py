@@ -54,7 +54,15 @@ print("\nveOLAS holders\n", json.dumps(veolas_holders, indent=4))
 
 # Get OLAS holders at a given block (ignore block argument to retrieve latest) with a minimum balance power of 100 OLAS
 # Requires ETHEREUM_RPC to be set in the .env file
-olas_holders = olas.olas_holders.get(block=19733758, min_balance_wei=int(100e18), csv_dump=True)
+blocks = {
+    "ethereum": 19733758,
+    "arbitrum": "latest",
+    "polygon": "latest",
+    "gnosis": "latest",
+    "base": "latest",
+    "optimism": "latest",
+}
+olas_holders = olas.olas_holders.get(blocks=blocks, min_balance_wei=int(100e18), csv_dump=True)
 print("\nOLAS holders\n", json.dumps(olas_holders, indent=4))
 
 # Get addresses that have bonded up to a given block (ignore block argument to retrieve latest)

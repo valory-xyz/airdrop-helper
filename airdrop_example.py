@@ -31,7 +31,14 @@ import json
 # Prepare the airdrop parameters
 parameters = {
     "token_allocation_per_weight_unit": 1,
-    "block": "latest",  # only for holders, stakers and bonders
+    "blocks": {  # only for holders, stakers (ethereum only) and bonders (ethereum only)
+        "ethereum": "latest",
+        "arbitrum": "latest",
+        "polygon": "latest",
+        "gnosis": "latest",
+        "base": "latest",
+        "optimism": "latest",
+    },
 
     # Contributors
     "weight_per_contributor": 1,
