@@ -35,7 +35,9 @@ class ERC20Parser:
     BLOCK_RANGE = 2000  # this range lets us avoid event limits on RPC response, and therefore pagination
     DUMP_THRESHOLD = 1000
 
-    def __init__(self, contract, chain_name, events_csv_file, balances_json_file) -> None:
+    def __init__(
+        self, contract, chain_name, events_csv_file, balances_json_file
+    ) -> None:
         """ERC20 history"""
         self.contract = contract
         self.chain_name = chain_name

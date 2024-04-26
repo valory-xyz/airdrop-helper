@@ -136,9 +136,12 @@ class OLAS:
             )
 
             if not os.path.isfile(events_csv_file):
-                print(f"Event file found: {events_csv_file}. Using that file instead fo pulling events from the chain.")
                 token_parser.parse_transfer_events(
                     from_block=self.DEPLOYMENT_BLOCKS[chain_name], to_block=block
+                )
+            else:
+                print(
+                    f"Event file found: {events_csv_file}. Using that file instead fo pulling events from the chain."
                 )
             token_parser.sort_events()
             token_parser.clean_event_duplications()
@@ -147,10 +150,14 @@ class OLAS:
             # Add balances
             for address in token_parser.balances.keys():
                 balance = token_parser.get_balance(address, block)
-                address_to_balance[address] = address_to_balance.get(address, 0) + balance
+                address_to_balance[address] = (
+                    address_to_balance.get(address, 0) + balance
+                )
 
         # Filter addresses
-        address_to_balance = dict(filter(lambda item: item[1] >= min_balance_wei, address_to_balance.items()))
+        address_to_balance = dict(
+            filter(lambda item: item[1] >= min_balance_wei, address_to_balance.items())
+        )
 
         if csv_dump:
             self.dump(address_to_balance)

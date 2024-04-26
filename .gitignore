@@ -16,3 +16,5 @@ data/contributors.csv
 data/contributors.json
 
 data/olas_balances.csv
+
+leak_report

@@ -111,7 +111,7 @@ class Airdrop:
             print("Collecting OLAS holders...")
 
             olas_holders = self.olas.olas_holders.get(
-                block=blocks, min_balance_wei=self.parameters["min_olas_balance_wei"]
+                blocks=blocks, min_balance_wei=self.parameters["min_olas_balance_wei"]
             )
 
             for address, balance in olas_holders.items():
