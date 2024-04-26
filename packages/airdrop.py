@@ -44,7 +44,7 @@ class Airdrop:
 
     def calculate(self, csv_dump=False):
         """Calculate"""
-        block = self.parameters["block"]
+        blocks = self.parameters["blocks"]
 
         # Contribute
         weight = self.parameters["weight_per_contributor"]
@@ -98,7 +98,7 @@ class Airdrop:
             print("Collecting veOLAS holders...")
 
             veolas_holders = self.olas.veolas_holders.get(
-                block=block, min_power=self.parameters["min_voting_power"]
+                block=blocks["ethereum"], min_power=self.parameters["min_voting_power"]
             )
 
             for address in veolas_holders.keys():
@@ -111,7 +111,7 @@ class Airdrop:
             print("Collecting OLAS holders...")
 
             olas_holders = self.olas.olas_holders.get(
-                block=block, min_balance_wei=self.parameters["min_olas_balance_wei"]
+                blocks=blocks, min_balance_wei=self.parameters["min_olas_balance_wei"]
             )
 
             for address, balance in olas_holders.items():
@@ -125,7 +125,7 @@ class Airdrop:
             print("Collecting bonders...")
 
             bonders = self.olas.bonders.get(
-                block=block, min_amount=self.parameters["min_bond_amount"]
+                block=blocks["ethereum"], min_amount=self.parameters["min_bond_amount"]
             )
 
             for address in bonders.keys():
@@ -148,10 +148,10 @@ class Airdrop:
 
         if weight:
             print("Collecting Alpine stakers...")
-            alpine_stakers = self.olas.stakers.alpine.get(block=block)
+            alpine_stakers = self.olas.stakers.alpine.get(block=blocks["ethereum"])
 
             print("Collecting Everest stakers...")
-            everest_stakers = self.olas.stakers.everest.get(block=block)
+            everest_stakers = self.olas.stakers.everest.get(block=blocks["ethereum"])
 
             for address in alpine_stakers + everest_stakers:
                 self.add_weight(address, weight)
