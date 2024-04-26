@@ -111,7 +111,7 @@ class OLAS:
         """Get voting power per holder"""
 
         address_to_balance = {}
-        for chain_name in CONTRACTS.keys():
+        for chain_name in blocks.keys():
             if chain_name in self.contract_manager.skip_chains:
                 print(
                     f"Warning: Missing {chain_name.upper()}_RPC. Skipping call to {chain_name} chain"
@@ -132,23 +132,25 @@ class OLAS:
             events_csv_file = Path("data", f"events_{chain_name}.csv")
             balances_json_file = Path("data", f"balances_{chain_name}.json")
             token_parser = ERC20Parser(
-                olas_contract, events_csv_file, balances_json_file
+                olas_contract, chain_name, events_csv_file, balances_json_file
             )
 
-            if not os.path.isfile(balances_json_file):
+            if not os.path.isfile(events_csv_file):
+                print(f"Event file found: {events_csv_file}. Using that file instead fo pulling events from the chain.")
                 token_parser.parse_transfer_events(
                     from_block=self.DEPLOYMENT_BLOCKS[chain_name], to_block=block
                 )
-                token_parser.sort_events()
-                token_parser.clean_event_duplications()
+            token_parser.sort_events()
+            token_parser.clean_event_duplications()
             token_parser.build_balance_history()
 
-            # Check balances
-            address_to_balance = {}
+            # Add balances
             for address in token_parser.balances.keys():
                 balance = token_parser.get_balance(address, block)
-                if balance >= min_balance_wei:
-                    address_to_balance[address] = balance
+                address_to_balance[address] = address_to_balance.get(address, 0) + balance
+
+        # Filter addresses
+        address_to_balance = dict(filter(lambda item: item[1] >= min_balance_wei, address_to_balance.items()))
 
         if csv_dump:
             self.dump(address_to_balance)

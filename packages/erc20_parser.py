@@ -35,9 +35,10 @@ class ERC20Parser:
     BLOCK_RANGE = 2000  # this range lets us avoid event limits on RPC response, and therefore pagination
     DUMP_THRESHOLD = 1000
 
-    def __init__(self, contract, events_csv_file, balances_json_file) -> None:
+    def __init__(self, contract, chain_name, events_csv_file, balances_json_file) -> None:
         """ERC20 history"""
         self.contract = contract
+        self.chain_name = chain_name
         self.event_queue = []
         self.balances = {}
         self.header_written = False
@@ -52,7 +53,7 @@ class ERC20Parser:
             percent = 100 * (block - from_block) / (to_block - from_block)
             while True:
                 print(
-                    f"Parsing blocks {from_block} to {to_block}: batch {block} to {block + self.BLOCK_RANGE} [{percent:0.2f}%]"
+                    f"Parsing {self.chain_name} blocks {from_block} to {to_block}: batch {block} to {block + self.BLOCK_RANGE} [{percent:0.2f}%]"
                 )
                 try:
                     # Single address
