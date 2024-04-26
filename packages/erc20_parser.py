@@ -34,16 +34,16 @@ class ERC20Parser:
 
     BLOCK_RANGE = 2000  # this range lets us avoid event limits on RPC response, and therefore pagination
     DUMP_THRESHOLD = 1000
-    EVENTS_CSV_FILE = Path("data", "events.csv")
-    BALANCES_JSON_FILE = Path("data", "balances.json")
 
-    def __init__(self, contract) -> None:
+    def __init__(self, contract, events_csv_file, balances_json_file) -> None:
         """ERC20 history"""
         self.contract = contract
         self.event_queue = []
         self.balances = {}
         self.header_written = False
-        self.events_file_exist = os.path.isfile(self.EVENTS_CSV_FILE)
+        self.events_csv_file = events_csv_file
+        self.balances_json_file = balances_json_file
+        self.events_file_exist = os.path.isfile(self.events_csv_file)
 
     def parse_transfer_events(self, from_block, to_block, address=None):
         """Parse transfer events"""
@@ -95,7 +95,7 @@ class ERC20Parser:
 
     def store_events(self):
         """Store transfer events"""
-        with open(self.EVENTS_CSV_FILE, "a") as event_file:
+        with open(self.events_csv_file, "a") as event_file:
             writer = csv.writer(event_file, quoting=csv.QUOTE_NONNUMERIC)
             header = [
                 "block",
@@ -115,7 +115,7 @@ class ERC20Parser:
 
     def sort_events(self):
         """Sort the events file"""
-        with open(self.EVENTS_CSV_FILE, "r") as event_file:
+        with open(self.events_csv_file, "r") as event_file:
             csv_reader = csv.DictReader(event_file)
             event_list = list(csv_reader)
 
@@ -140,7 +140,7 @@ class ERC20Parser:
             sorted_events += block_events
             block_events = [event]
 
-        with open(self.EVENTS_CSV_FILE, "w") as event_file:
+        with open(self.events_csv_file, "w") as event_file:
             csv_writer = csv.DictWriter(
                 event_file, fieldnames=list(sorted_events[0].keys())
             )
@@ -150,7 +150,7 @@ class ERC20Parser:
     def clean_event_duplications(self):
         """Remove event duplications from the event file"""
 
-        with open(self.EVENTS_CSV_FILE, "r") as event_file:
+        with open(self.events_csv_file, "r") as event_file:
             lines = event_file.readlines()
 
         clean_lines = []
@@ -174,13 +174,13 @@ class ERC20Parser:
 
             current_block = block
 
-        with open(self.EVENTS_CSV_FILE, "w") as event_file:
+        with open(self.events_csv_file, "w") as event_file:
             event_file.write(header)
             event_file.writelines(clean_lines)
 
     def load_events(self):
         """Load transfer events"""
-        with open(self.EVENTS_CSV_FILE, "r") as event_file:
+        with open(self.events_csv_file, "r") as event_file:
             csv_reader = csv.DictReader(event_file)
             event_list = list(csv_reader)
             event_list.sort(key=lambda e: int(e["block"]))
@@ -212,7 +212,7 @@ class ERC20Parser:
                     self.balances[to_address][last_block] + amount
                 )
 
-        with open(self.BALANCES_JSON_FILE, "w") as balance_file:
+        with open(self.balances_json_file, "w") as balance_file:
             json.dump(self.balances, balance_file, indent=4)
 
     def get_balance(self, address, block):
