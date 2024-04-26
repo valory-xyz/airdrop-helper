@@ -45,16 +45,40 @@ CONTRACTS = {
             "alpine": "0x2Ef503950Be67a98746F484DA0bBAdA339DF3326",
             "everest": "0x5add592ce0a1B5DceCebB5Dcac086Cd9F9e3eA5C",
         },
+        "other": {
+            "olas": "0xcE11e14225575945b8E6Dc0D4F2dD4C570f79d9f"
+        }
     },
     "polygon": {
-        "registries": {"service_registry": "0xE3607b00E75f6405248323A9417ff6b39B244b50"}
+        "registries": {"service_registry": "0xE3607b00E75f6405248323A9417ff6b39B244b50"},
+        "other": {
+            "olas": "0xFEF5d947472e72Efbb2E388c730B7428406F2F95"
+        }
     },
     "arbitrum": {
-        "registries": {"service_registry": "0xE3607b00E75f6405248323A9417ff6b39B244b50"}
+        "registries": {"service_registry": "0xE3607b00E75f6405248323A9417ff6b39B244b50"},
+        "other": {
+            "olas": "0x064f8b858c2a603e1b106a2039f5446d32dc81c1"
+        }
     },
     "solana": {
         "registries": {
             "service_registry": "AU428Z7KbjRMjhmqWmQwUta2AvydbpfEZNBh8dStHTDi"
+        },
+        "other": {
+            "olas": ""
+        }
+    },
+    "optimism": {
+        "registries": {"service_registry": "0x3d77596beb0f130a4415df3D2D8232B3d3D31e44"},
+        "other": {
+            "olas": "0xFC2E6e6BCbd49ccf3A5f029c79984372DcBFE527"
+        }
+    },
+    "base": {
+        "registries": {"service_registry": "0x3C1fF68f5aa342D296d4DEe4Bb1cACCA912D95fE"},
+        "other": {
+            "olas": "0x54330d28ca3357F294334BDC454a032e7f353416"
         }
     },
 }
