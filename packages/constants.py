@@ -44,6 +44,12 @@ CONTRACTS = {
         "staking": {
             "alpine": "0x2Ef503950Be67a98746F484DA0bBAdA339DF3326",
             "everest": "0x5add592ce0a1B5DceCebB5Dcac086Cd9F9e3eA5C",
+            "coastal": "0x43fB32f25dce34EB76c78C7A42C8F40F84BCD237",
+            "beta_hobbyist": "0x389B46c259631Acd6a69Bde8B6cEe218230bAE8C",
+            "beta_hobbyist_2": "0x238EB6993b90a978ec6AAD7530d6429c949C08DA",
+            "beta_expert": "0x5344B7DD311e5d3DdDd46A4f71481bD7b05AAA3e",
+            "beta_expert_2": "0xb964e44c126410df341ae04B13aB10A985fE3513",
+            "beta_expert_3": "0x80faD33Cadb5F53f9D29F02Db97D682E8b101618",
         },
         "other": {"olas": "0xcE11e14225575945b8E6Dc0D4F2dD4C570f79d9f"},
     },

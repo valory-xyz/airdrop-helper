@@ -147,13 +147,32 @@ class Airdrop:
         weight = self.parameters["weight_per_staker"]
 
         if weight:
+            stakers = []
             print("Collecting Alpine stakers...")
-            alpine_stakers = self.olas.stakers.alpine.get(block=blocks["ethereum"])
+            stakers.extend(self.olas.stakers.alpine.get(block=blocks["ethereum"]))
 
             print("Collecting Everest stakers...")
-            everest_stakers = self.olas.stakers.everest.get(block=blocks["ethereum"])
+            stakers.extend(self.olas.stakers.everest.get(block=blocks["ethereum"]))
 
-            for address in alpine_stakers + everest_stakers:
+            print("Collecting Coastal stakers...")
+            stakers.extend(self.olas.stakers.coastal.get(block=blocks["gnosis"]))
+
+            print("Collecting Beta Hobbyist stakers...")
+            stakers.extend(self.olas.stakers.beta_hobbyist.get(block=blocks["gnosis"]))
+
+            print("Collecting Beta Hobbyist 2 stakers...")
+            stakers.extend(self.olas.stakers.beta_hobbyist_2.get(block=blocks["gnosis"]))
+
+            print("Collecting Beta Expert stakers...")
+            stakers.extend(self.olas.stakers.beta_expert.get(block=blocks["gnosis"]))
+
+            print("Collecting Beta Expert 2 stakers...")
+            stakers.extend(self.olas.stakers.beta_expert_2.get(block=blocks["gnosis"]))
+
+            print("Collecting Beta Expert 3 stakers...")
+            stakers.extend(self.olas.stakers.beta_expert_3.get(block=blocks["gnosis"]))
+
+            for address in stakers:
                 self.add_weight(address, weight)
 
         # Calculate rewards
