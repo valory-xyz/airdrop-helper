@@ -25,6 +25,12 @@ from pathlib import Path
 
 ALPINE_DEPLOYMENT_BLOCK = 32120064
 EVEREST_DEPLOYMENT_BLOCK = 30758378
+COASTAL_DEPLOYMENT_BLOCK = 33590123
+BETA_HOBBYIST_DEPLOYMENT_BLOCK = 35214054
+BETA_HOBBYIST_2_DEPLOYMENT_BLOCK = 35709986
+BETA_EXPERT_DEPLOYMENT_BLOCK = 35214122
+BETA_EXPERT_2_DEPLOYMENT_BLOCK = 35708126
+BETA_EXPERT_3_DEPLOYMENT_BLOCK = 35708584
 
 
 class StakingProgramme:
@@ -95,6 +101,54 @@ class Everest(StakingProgramme):
         super().__init__(contract_manager, "everest", EVEREST_DEPLOYMENT_BLOCK)
 
 
+class Coastal(StakingProgramme):
+    """Coastal"""
+
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        super().__init__(contract_manager, "coastal", COASTAL_DEPLOYMENT_BLOCK)
+
+
+class BetaHobbyist(StakingProgramme):
+    """Beta Hobbyist"""
+
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        super().__init__(contract_manager, "beta_hobbyist", BETA_HOBBYIST_DEPLOYMENT_BLOCK)
+
+
+class BetaHobbyist2(StakingProgramme):
+    """Beta Hobbyist 2"""
+
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        super().__init__(contract_manager, "beta_hobbyist_2", BETA_HOBBYIST_2_DEPLOYMENT_BLOCK)
+
+
+class BetaExpert(StakingProgramme):
+    """Beta Expert"""
+
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        super().__init__(contract_manager, "beta_expert", BETA_EXPERT_DEPLOYMENT_BLOCK)
+
+
+class BetaExpert2(StakingProgramme):
+    """Beta Expert 2"""
+
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        super().__init__(contract_manager, "beta_expert_2", BETA_EXPERT_2_DEPLOYMENT_BLOCK)
+
+
+class BetaExpert3(StakingProgramme):
+    """Beta Expert 3"""
+
+    def __init__(self, contract_manager) -> None:
+        """Initializer"""
+        super().__init__(contract_manager, "beta_expert_3", BETA_EXPERT_3_DEPLOYMENT_BLOCK)
+
+
 class Stakers:
     """Stakers"""
 
@@ -102,3 +156,9 @@ class Stakers:
         """Initializer"""
         self.alpine = Alpine(contract_manager)
         self.everest = Everest(contract_manager)
+        self.coastal = Coastal(contract_manager)
+        self.beta_hobbyist = BetaHobbyist(contract_manager)
+        self.beta_hobbyist_2 = BetaHobbyist2(contract_manager)
+        self.beta_expert = BetaExpert(contract_manager)
+        self.beta_expert_2 = BetaExpert2(contract_manager)
+        self.beta_expert_3 = BetaExpert3(contract_manager)
